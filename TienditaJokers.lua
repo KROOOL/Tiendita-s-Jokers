@@ -64,9 +64,8 @@ SMODS.Joker {
     loc_txt = {
         name = "Cepillin", --Nombre
         text = { --Informacion sobre lo q hace
-            "Si tienes esta carta",
-            "eres todo un ",
-            "{C:attention}Naco y Estupido{}",
+            "When a {C:attention}#1#{} of {C:attention}5{} Cards is played",
+            "then all scored Cards retrigger {C:attention}#2#{} additional times"
         },
     },
     atlas = 'TienditaJokers',
@@ -78,15 +77,17 @@ SMODS.Joker {
     discovered = true, --Descubierto por default
     pos = { x = 1, y = 0}, --Posicion asset
     soul_pos = { x = 1, y = 1}, --Posicion soul asset
-    config = { 
-        extra = {
-            mult = 0, x_mult = 2, every = 9, multadd = 1,
-        } 
-    }, -- Parametros
-    loc_vars = function(self,info_queue,center)
-        return {
-            vars = {center.ability.extra.x_mult, center.ability.extra.every, center.ability.extra.multadd}
-        }
+    config = { extra = { poker_hand = 'High Card', repetitions = 4} },
+    loc_vars = function(self, info_queue, card)
+        return { vars = {localize(card.ability.extra.poker_hand, 'poker_hands'), card.ability.extra.repetitions} }
+    end,
+    calculate = function(self, card, context)
+        if context.repetition and context.cardarea == G.play 
+        and context.scoring_name == card.ability.extra.poker_hand and #context.full_hand == 5 then
+            return {
+                repetitions = card.ability.extra.repetitions
+            }
+        end
     end,
 }
 
