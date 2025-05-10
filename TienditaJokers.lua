@@ -6,7 +6,7 @@ SMODS.Atlas {
 }
 
 SMODS.Joker {
-    key = 'j_yu_sze',
+    key = 'yu_sze',
     loc_txt = {
         name = "Yu Sze", --Nombre
         text = { --Informacion sobre lo q hace
@@ -60,7 +60,7 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
-    key = 'j_cepillin',
+    key = 'cepillin',
     loc_txt = {
         name = "Cepillin", --Nombre
         text = { --Informacion sobre lo q hace
@@ -92,9 +92,9 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
-    key = 'j_bust',
+    key = 'bust',
     loc_txt = {
-        name = "Bust Joker", --Nombre
+        name = "Bust", --Nombre
         text = { --Informacion sobre lo q hace
             "Retrigger all played {C:attention}Stone{} cards",
         },
