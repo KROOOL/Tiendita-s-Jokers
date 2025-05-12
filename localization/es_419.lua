@@ -26,7 +26,28 @@ return {
         text = { --Informacion sobre lo q hace
           "Reactiva todas las cartas de {C:attention}piedra{} jugadas",
         },
-      }
+      },
+
+      j_tiendita_junaluska = {
+        name = "Junaluska",
+        text = { --Informacion sobre lo q hace
+          "{C:chips}+#1#{} fichas",
+          "{C:green}#2# in #3#{} probabilidades",
+          "de que la carta se destruya",
+          "al final de la ronda",
+        },
+      },
+
+      j_tiendita_red_delicious = {
+        name = "Red Delicious",
+        text = { --Informacion sobre lo q hace
+          "{X:blue,C:white}X#1#{} fichas",
+          "{C:green}#2# in #3#{} probabilidades",
+          "de que la carta se destruya",
+          "al final de la ronda",
+        },
+      },
+
     }
   }
 }

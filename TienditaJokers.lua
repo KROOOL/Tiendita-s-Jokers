@@ -121,3 +121,133 @@ SMODS.Joker {
         end
     end,
 }
+
+SMODS.Joker {
+    key = 'junaluska',
+    loc_txt = {
+        name = "Junaluska", --Nombre
+        text = {
+            "{C:chips}+#1#{} Chips",
+            "{C:green}#2# in #3#{} chance this",
+            "card is destroyed",
+            "at end of round",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true, 
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 4, y = 0}, --Posicion asset
+    config = { extra = { odds = 6, chips = 120 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.chips, (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+    end,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
+            if pseudorandom('tiendita_junaluska') < G.GAME.probabilities.normal / card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            delay = 0.3,
+                            blockable = false,
+                            func = function()
+                                card:remove()
+                                return true
+                            end
+                        }))
+                        return true
+                    end
+                }))
+                G.GAME.pool_flags.tiendita_junaluska_extinct = true
+                return {
+                    message = localize('k_extinct_ex')
+                }
+            else
+                return {
+                    message = localize('k_safe_ex')
+                }
+            end
+        end
+        if context.joker_main then
+            return {
+                chips = card.ability.extra.chips
+            }
+        end
+    end,
+    in_pool = function(self, args) -- equivalent to `no_pool_flag = 'tiendita_junaluska_extinct'`
+        return not G.GAME.pool_flags.tiendita_junaluska_extinct
+    end
+}
+
+SMODS.Joker {
+    key = 'red_delicious',
+    loc_txt = {
+        name = "Red Delicious", --Nombre
+        text = {
+            "{X:blue,C:white} X#1#{} Chips",
+            "{C:green}#2# in #3#{} chance this",
+            "card is destroyed",
+            "at end of round",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true, 
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 5, y = 0}, --Posicion asset
+
+    config = { extra = { odds = 1000, Xchips = 3 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.Xchips, G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+    end,
+    calculate = function(self, card, context)
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
+            if pseudorandom('tiendita_red_delicious') < G.GAME.probabilities.normal / card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            delay = 0.3,
+                            blockable = false,
+                            func = function()
+                                card:remove()
+                                return true
+                            end
+                        }))
+                        return true
+                    end
+                }))
+                return {
+                    message = localize('k_extinct_ex')
+                }
+            else
+                return {
+                    message = localize('k_safe_ex')
+                }
+            end
+        end
+        if context.joker_main then
+            return {
+                xchips = card.ability.extra.Xchips
+            }
+        end
+    end,
+    in_pool = function(self, args) -- equivalent to `yes_pool_flag = 'tiendita_junaluska_extinct'`
+        return G.GAME.pool_flags.tiendita_junaluska_extinct
+    end
+}
