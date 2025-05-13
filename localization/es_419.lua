@@ -48,6 +48,22 @@ return {
         },
       },
 
+      j_tiendita_lucky_clover = {
+        name = "Trébol de la suerte",
+        text = { --Informacion sobre lo q hace
+          "Las cartas jugadas de {C:attention}#1#{}",
+          "tienen {C:green}#2# en #3#{} de volverse",
+          "cartas de la {C:attention}suerte{}",
+        },
+      },
+
+    }
+  },
+
+  misc = {
+    dictionary = {
+      k_lucky = "Suerte"
     }
   }
+
 }
