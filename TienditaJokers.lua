@@ -26,7 +26,7 @@ SMODS.Joker {
     soul_pos = { x = 0, y = 1}, --Posicion soul asset
     config = { 
         extra = {
-            x_mult = 1, x_mult_gain = 0.25
+            x_mult = 1, x_mult_gain = 0.15
         } 
     }, -- Parametros
     loc_vars = function(self,info_queue,center)
@@ -208,7 +208,7 @@ SMODS.Joker {
     discovered = true, --Descubierto por default
     pos = { x = 5, y = 0}, --Posicion asset
 
-    config = { extra = { odds = 1000, Xchips = 3 } },
+    config = { extra = { odds = 1000, Xchips = 2 } },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.Xchips, G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
     end,

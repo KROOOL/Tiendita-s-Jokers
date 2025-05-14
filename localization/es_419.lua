@@ -15,9 +15,9 @@ return {
       j_tiendita_cepillin = {
         name = "Cepillin",
         text = { --Informacion sobre lo q hace
-            "Cuando tu mano jugada es {C:attention}#1#{}",
-            "y tiene {C:attention}5{} cartas, entonces reactiva todas",
-            "tus cartas jugadas al anotar {C:attention}#2#{} veces adicionales"
+           "Cuando tu mano jugada es {C:attention}#1#{}",
+            "y tiene {C:attention}5{} cartas, reactiva todas",
+            "tus cartas al anotar {C:attention}#2#{} veces adicionales"
         },
       },
 
