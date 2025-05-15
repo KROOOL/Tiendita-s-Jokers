@@ -57,12 +57,35 @@ return {
         },
       },
 
+
+      j_tiendita_moai = {
+        name = "Moái",
+        text = { --Informacion sobre lo q hace
+          "Este comodín obtiene {C:chips}+#1#{} fichas",
+          "cuando se destruye",
+          "una carta de {C:attention}piedra{}",
+          "{C:inactive}[Actual {C:chips}+#2#{C:inactive} fichas]{}",
+        },
+      },
+
+      j_tiendita_snake = {
+        name = "Serpiente",
+        text = {
+          "Si tu {C:attention}mano jugada{} tiene solo",
+          "{C:attention}1{} carta {C:attention}+#1#{} tamaño de la mano",
+          " en esta ronda",
+          "{C:red}#2#{} descarte",
+        }
+      }
+
+
     }
   },
 
   misc = {
     dictionary = {
-      k_lucky = "Suerte"
+      k_lucky = "Suerte",
+      k_nye = "NyE"
     }
   }
 

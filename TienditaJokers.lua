@@ -85,10 +85,149 @@ SMODS.Joker {
         if context.repetition and context.cardarea == G.play 
         and context.scoring_name == card.ability.extra.poker_hand and #context.full_hand == 5 then
             return {
-                repetitions = card.ability.extra.repetitions
+                repetitions = card.ability.extra.repetitions,
+                message = localize('k_nye'),
             }
         end
     end,
+}
+
+SMODS.Joker {
+    key = 'snake',
+    loc_txt = {
+        name = "Snake", --Nombre
+        text = {
+            "If your {C:attention}played hand{} has only",
+            "{C:attention}1{} card {C:attention}+#1#{} hand size",
+            " in the current round",
+            "{C:red}#2#{} discard",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 3,
+    cost = 7,
+    blueprint_compat = false,
+    eternal_compat = true,
+    perishable_compat = false,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 2, y = 0}, --Posicion asset
+    soul_pos = { x = 2, y = 1, },
+    config = { h_size = 0, extra_h = 2, extra = { d_size = -1}} ,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra_h, card.ability.extra.d_size}}
+    end,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and #context.full_hand == 1 and not context.blueprint then
+            card.ability.h_size = card.ability.h_size + card.ability.extra_h
+            G.hand:change_size(card.ability.extra_h)
+      
+            return { message = localize('k_upgrade_ex'), colour = G.C.RED, message_card = card }
+        end
+    
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            G.hand:change_size(-card.ability.h_size)
+            card.ability.h_size = 0
+        end
+    end,
+    add_to_deck = function(self, card, from_debuff)
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.d_size
+        ease_discard(card.ability.extra.d_size)
+    end,
+    remove_from_deck = function(self, card, from_debuff)
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards - card.ability.extra.d_size
+        ease_discard(-card.ability.extra.d_size)
+    end
+}
+
+SMODS.Joker {
+    key = 'moai',
+    loc_txt = {
+        name = "Moai", --Nombre
+        text = {
+            "This Joker gains {C:chips}+#1#{} chips",
+            "when a {C:attention}stone{}",
+            "card is destroyed",
+            "{C:inactive}[Currently {C:chips}+#2#{C:inactive} chips]{}",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    eternal_compat = true,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 3, y = 1}, --Posicion asset
+    config = { extra = { chip_mod = 80, chips = 0} },
+    loc_vars = function(self, info_queue, card)
+         return { vars = { card.ability.extra.chip_mod, card.ability.extra.chips}}
+    end,
+    calculate = function(self, card, context)
+        if context.remove_playing_cards and not context.blueprint then
+            local stone_cards = 0
+            for _, removed_card in ipairs(context.removed) do
+                if SMODS.has_enhancement(removed_card, "m_stone") then stone_cards = stone_cards + 1 end
+            end
+            if stone_cards > 0 then
+                card.ability.extra.chips = card.ability.extra.chips + stone_cards * card.ability.extra.chip_mod
+                return {  message = localize('k_upgrade_ex'), colour = G.C.CHIPS, message_card = card }
+            end
+        end
+        if context.joker_main then
+            return {
+                chips = card.ability.extra.chips
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = 'lucky_clover',
+    loc_txt = {
+        name = "Lucky Clover", --Nombre
+        text = {
+            "Played {C:attention}#1#{} cards have",
+            "{C:green}#2# in #3#{} to become",
+            "{C:attention}Lucky{} cards when scored",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 2,
+    cost = 7,
+    blueprint_compat = true,
+    eternal_compat = false,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 4, y = 1}, --Posicion asset
+    config = { extra = {suit = 'Clubs', odds = 4 }, },
+    loc_vars = function(self, info_queue, card)
+       return { vars = { localize(card.ability.extra.suit,'suits_singular'), G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+    end,
+    calculate = function(self, card, context)
+        if context.before and context.main_eval and not context.blueprint and 
+            pseudorandom('tiendita_lucky_clover') < G.GAME.probabilities.normal / card.ability.extra.odds then
+            local suits = {}
+                for _, scored_card in ipairs(context.scoring_hand) do
+                    if scored_card:is_suit(card.ability.extra.suit) then
+                        suits[#suits + 1] = scored_card
+                        scored_card:set_ability('m_lucky', nil, true)
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                scored_card:juice_up()
+                                return true
+                            end
+                        }))
+                    end
+                end
+                if #suits > 0 then
+                    return {
+                        message = localize('k_lucky'),
+                        colour = G.C.MONEY
+                    }
+                end
+        end
+    end
 }
 
 SMODS.Joker {
@@ -251,53 +390,5 @@ SMODS.Joker {
     end,
     in_pool = function(self, args) -- equivalent to `yes_pool_flag = 'tiendita_junaluska_extinct'`
         return G.GAME.pool_flags.tiendita_junaluska_extinct
-    end
-}
-
-SMODS.Joker {
-    key = 'lucky_clover',
-    loc_txt = {
-        name = "Lucky Clover", --Nombre
-        text = {
-            "Played {C:attention}#1#{} cards have",
-            "{C:green}#2# in #3#{} to become",
-            "{C:attention}Lucky{} cards when scored",
-        },
-    },
-    atlas = 'TienditaJokers',
-    rarity = 2,
-    cost = 7,
-    blueprint_compat = true,
-    eternal_compat = false,  
-    unlocked = true, --Desbloqueado por default
-    discovered = true, --Descubierto por default
-    pos = { x = 2, y = 1}, --Posicion asset
-    config = { extra = {suit = 'Clubs', odds = 4 }, },
-    loc_vars = function(self, info_queue, card)
-       return { vars = { localize(card.ability.extra.suit,'suits_singular'), G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
-    end,
-    calculate = function(self, card, context)
-        if context.before and context.main_eval and not context.blueprint and 
-            pseudorandom('tiendita_lucky_clover') < G.GAME.probabilities.normal / card.ability.extra.odds then
-            local suits = {}
-                for _, scored_card in ipairs(context.scoring_hand) do
-                    if scored_card:is_suit(card.ability.extra.suit) then
-                        suits[#suits + 1] = scored_card
-                        scored_card:set_ability('m_lucky', nil, true)
-                        G.E_MANAGER:add_event(Event({
-                            func = function()
-                                scored_card:juice_up()
-                                return true
-                            end
-                        }))
-                    end
-                end
-                if #suits > 0 then
-                    return {
-                        message = localize('k_lucky'),
-                        colour = G.C.MONEY
-                    }
-                end
-        end
     end
 }
