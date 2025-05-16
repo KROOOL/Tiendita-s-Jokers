@@ -15,7 +15,7 @@ return {
       j_tiendita_cepillin = {
         name = "Cepillin",
         text = { --Informacion sobre lo q hace
-            "Cuando tu mano jugada es {C:attention}#1#{}",
+           "Cuando tu mano jugada es {C:attention}#1#{}",
             "y tiene {C:attention}5{} cartas, reactiva todas",
             "tus cartas al anotar {C:attention}#2#{} veces adicionales"
         },
@@ -57,13 +57,14 @@ return {
         },
       },
 
+
       j_tiendita_moai = {
         name = "Moái",
         text = { --Informacion sobre lo q hace
-          "Este comodín obtiene {C:chips}+#1#{} fichas",
-          "cuando se destruye",
-          "una carta de {C:attention}piedra{}",
-          "{C:inactive}[Actual {C:chips}+#2#{C:inactive} fichas]{}",
+          "Este comodín gana",
+          "{X:blue,C:white}X#1#{} fichas por cada carta de {C:attention}piedra{} destruida",
+          "{C:chips}+#2#{} fichas por cada carta de {C:attention}piedra{} jugada}",
+          "{C:inactive}[Acutal {C:chips}+#4#{}{C:inactive} & {X:blue,C:white}X#3#{C:inactive} fichas]{}",
         },
       },
 
@@ -75,7 +76,39 @@ return {
           " en esta ronda",
           "{C:red}#2#{} descarte",
         }
-      }
+      },
+
+      j_tiendita_paleta_payaso = {
+        name = "Paleta Payaso",
+        text = {
+            "Todas las cartas de {C:attention}figura{} jugadas tienen",
+            "{C:green}#2# en #3#{} probabilidades de convertirse en otra carta de {C:attention}figura{}",
+            "{C:green}#2# en #4#{} probabilidades de cambiar su {C:attention}Mejora",
+            "{C:green}#2# en #5#{} probabilidades de cambiar su {C:attention}Edición",
+        },
+      },
+
+      j_tiendita_souls = {
+        name = "Almas",
+        text = {
+            "Después de {C:attention}#1#{} rondas",
+            "vende esta carta para",
+            "crear una carta de {C:purple}El alma{}",
+            "{C:inactive}(actual {C:attention}#2#{C:inactive}/#1#)",
+        },
+      },
+
+      j_tiendita_ballon = {
+        name = "Globo",
+        text = {
+            "{C:attention}+#1#{} multi cada ronda",
+            "{C:green}#2# en #3#{} probabilidades de que la carta",
+            "se destruya al final de la ronda",
+            "{C:inactive}(Actual {C:attention}+#4#{C:inactive} multi)",
+        },
+      },
+
+    
 
     }
   },
@@ -83,7 +116,10 @@ return {
   misc = {
     dictionary = {
       k_lucky = "Suerte",
-      k_nye = "NyE"
+      k_nye = "NyE",
+      k_change = "¡¡Cambio!!",
+      k_blow = "Inflado",
+      k_pop = "¡POP!"
     }
   }
 

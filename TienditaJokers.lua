@@ -154,8 +154,8 @@ SMODS.Joker {
     atlas = 'TienditaJokers',
     rarity = 3,
     cost = 10,
-    blueprint_compat = true,
-    eternal_compat = true,  
+    blueprint_compat = false,
+    eternal_compat = false,  
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default
     pos = { x = 5, y = 2}, --Posicion asset
@@ -194,6 +194,98 @@ SMODS.Joker {
     check_for_unlock = function(self, args)
         return args.type == 'win_custom' and G.GAME.max_jokers <= 4
     end,
+}
+
+SMODS.Joker{
+    key = 'paleta_payaso',
+    loc_txt ={
+        name = "Paleta Payaso",
+        text = {
+            "All scored {C:attention}#1#{} cards have",
+            "{C:green}#2# in #3#{} chance to convert to another {C:attention}#1#{} card",
+            "{C:green}#2# in #4#{} chance to change his {C:attention}#6#",
+            "{C:green}#2# in #5#{} chance to change his {C:attention}#7#",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 3,
+    cost = 7,
+    blueprint_compat = true,
+    eternal_compat = true,
+    unlocked = true,
+    discovered = true,
+    effect = '',
+    config = {extra = {feis = 2, enhance = 4, editi = 8}},
+    math.randomseed(os.time()),
+    pos = {x = math.random(0, 4), y = 2},
+
+    loc_vars = function(self, context, card)
+        return{
+            vars = {"Face", G.GAME.probabilities.normal, card.ability.extra.feis, card.ability.extra.enhance, card.ability.extra.editi, "Enhancement", "Edition"}
+        }
+    end,
+    calculate = function (self, card, context)
+        local edition = nil
+        local encanto = 0
+        if context.individual and context.cardarea == G.play and context.other_card:is_face() then   
+            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.editi then
+                encanto = encanto + 1
+                edition = poll_edition(wheel_of_fortune, nil, true, true)
+                context.other_card:set_edition(edition, nil, true)
+            end
+            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.enhance then
+                encanto = encanto + 1
+                local edition_poll = pseudorandom(pseudoseed('paleta_payaso'))
+                if edition_poll > 1 - 0.005*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_steel, nil, true)
+                elseif edition_poll > 1 - 0.0075*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_glass, nil, true)
+                elseif edition_poll > 1 - 0.01*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_gold, nil, true)
+                elseif edition_poll > 1 - 0.0125*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_lucky, nil, true)
+                elseif edition_poll > 1 - 0.015*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_stone, nil, true)
+                elseif edition_poll > 1 - 0.02*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_mult, nil, true)
+                elseif edition_poll > 1 - 0.025*25 then
+                    context.other_card:set_ability(G.P_CENTERS.m_bonus, nil, true)
+                else
+                    context.other_card:set_ability(G.P_CENTERS.m_wild, nil, true)
+                end                
+            end
+            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.feis then
+                local card = context.other_card
+                local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+                local edition_poll = pseudorandom(pseudoseed('paleta_payaso'))
+                local rank_suffix = card.base.id
+                if edition_poll > 1 - 0.01*25 and rank_suffix ~= 13 then
+                    rank_suffix = 'K'
+                    delay(0.4)
+                    encanto = encanto +1
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                elseif edition_poll > 1 - 0.02*25 and rank_suffix ~= 12 then
+                    rank_suffix = "Q"
+                    delay(0.4)
+                    encanto = encanto +1
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                elseif rank_suffix ~= 11 then
+                    rank_suffix = 'J'
+                    delay(0.4)
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                    encanto = encanto +1
+                end    
+            end
+            if encanto > 0 then
+                return{
+                    message = localize('k_change'),
+                    colour = G.C.GREEN,
+                    message_card = card
+
+                }
+            end
+        end        
+    end
 }
 
 SMODS.Joker {
@@ -317,6 +409,85 @@ SMODS.Joker {
         if context.repetition and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, "m_stone") then
             return {
                 repetitions = card.ability.extra.repetitions
+            }
+        end
+    end,
+}
+
+SMODS.Joker {
+    key = 'ballon',
+    loc_txt = {
+        name = "Ballon", --Nombre
+        text = {
+            "{C:attention}+#1#{} Mult each round",
+            "{C:green}#2# in #3#{} chance this",
+            "card is destroyed at end of round",
+            "{C:inactive}(Currently {C:attention}+#4#{C:inactive} Mult)",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    eternal_compat = false, 
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 0, y = 3}, --Posicion asset
+    config = { extra = { odds = 12, mult = 0, mult_gain = 5 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.mult_gain, (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.mult } }
+    end,
+
+    calculate = function(self, card, context)
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
+            if pseudorandom('tiendita_ballon') < G.GAME.probabilities.normal / card.ability.extra.odds then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        card.T.r = -0.2
+                        card:juice_up(0.3, 0.4)
+                        card.states.drag.is = true
+                        card.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'after',
+                            delay = 0.3,
+                            blockable = false,
+                            func = function()
+                                card:remove()
+                                return true
+                            end
+                        }))
+                        return true
+                    end
+                }))
+                G.GAME.pool_flags.tiendita_ballon_extinct = true
+                return {
+                    message = localize('k_pop')
+                }
+            else
+                card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+
+                if card.ability.extra.mult == 0 then
+                    card.ability.extra.odds = 12
+                    return { message = localize('k_blow'), colour = G.C.BLUE, message_card = card, }
+                end
+                if card.ability.extra.mult == 15 then
+                    card.ability.extra.odds = 6
+                    return { message = localize('k_blow'), colour = G.C.BLUE, message_card = card, }
+                end
+                if card.ability.extra.mult == 25 then
+                    card.ability.extra.odds = 3
+                    return { message = localize('k_blow'), colour = G.C.BLUE, message_card = card, }
+                end
+
+                return { message = localize('k_upgrade_ex'), colour = G.C.MULT, message_card = card, }
+            end
+        end
+
+        if context.joker_main then
+            return {
+                mult = card.ability.extra.mult,
+                odds = card.ability.extra.odds
             }
         end
     end,
