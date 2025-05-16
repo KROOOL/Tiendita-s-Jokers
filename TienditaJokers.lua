@@ -141,42 +141,103 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+    key = 'souls',
+    loc_txt = {
+        name = "Souls", --Nombre
+        text = {
+            "After {C:attention}#1#{} rounds",
+            "sells this card to",
+            "create a {C:purple}The Soul{} card",
+            "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 3,
+    cost = 10,
+    blueprint_compat = true,
+    eternal_compat = true,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 5, y = 2}, --Posicion asset
+    soul_pos = { x = 5, y = 3, },
+    config = { extra = { soul_rounds = 0, total_rounds = 7 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.total_rounds, card.ability.extra.soul_rounds }}
+    end,
+    calculate = function(self, card, context)
+        if context.selling_self and (card.ability.extra.soul_rounds >= card.ability.extra.total_rounds) and not context.blueprint then
+           G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.0,
+            func = (function()
+                local card = create_card(nil,G.consumeables, nil, nil, nil, nil, 'c_soul', 'sup')
+                card:set_edition({negative = true}, true)
+                card:add_to_deck()
+                G.consumeables:emplace(card)
+                return true
+            end)}))
+        end
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
+            card.ability.extra.soul_rounds = card.ability.extra.soul_rounds + 1
+            if card.ability.extra.soul_rounds == card.ability.extra.total_rounds then
+                local eval = function(card) return not card.REMOVED end
+                juice_card_until(card, eval, true)
+            end
+            return {
+                message = (card.ability.extra.soul_rounds < card.ability.extra.total_rounds) and
+                    (card.ability.extra.soul_rounds .. '/' .. card.ability.extra.total_rounds) or
+                    localize('k_active_ex'),
+                colour = G.C.FILTER
+            }
+        end
+    end,
+    check_for_unlock = function(self, args)
+        return args.type == 'win_custom' and G.GAME.max_jokers <= 4
+    end,
+}
+
+SMODS.Joker {
     key = 'moai',
     loc_txt = {
         name = "Moai", --Nombre
         text = {
-            "This Joker gains {C:chips}+#1#{} chips",
-            "when a {C:attention}stone{}",
-            "card is destroyed",
-            "{C:inactive}[Currently {C:chips}+#2#{C:inactive} chips]{}",
+            "This Joker gains ",
+            "{X:blue,C:white}X#1#{} Chips for destroyed {C:attention}stone{} card",
+            "{C:chips}+#2#{} Chips for played {C:attention}stone{} card}",
+            "{C:inactive}[Currently {C:chips}+#4#{}{C:inactive} & {X:blue,C:white}X#3#{C:inactive} Chips]{}",
         },
     },
     atlas = 'TienditaJokers',
-    rarity = 2,
+    rarity = 3,
     cost = 7,
     blueprint_compat = true,
     eternal_compat = true,  
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default
     pos = { x = 3, y = 1}, --Posicion asset
-    config = { extra = { chip_mod = 80, chips = 0} },
+    config = { extra = { chip_mod = 30, Xchips_mod = 0.15, chips = 0, Xchips = 1} },
     loc_vars = function(self, info_queue, card)
-         return { vars = { card.ability.extra.chip_mod, card.ability.extra.chips}}
+         return { vars = { card.ability.extra.Xchips_mod ,card.ability.extra.chip_mod, card.ability.extra.Xchips, card.ability.extra.chips}}
     end,
     calculate = function(self, card, context)
         if context.remove_playing_cards and not context.blueprint then
-            local stone_cards = 0
+            local d_stone_cards = 0
             for _, removed_card in ipairs(context.removed) do
-                if SMODS.has_enhancement(removed_card, "m_stone") then stone_cards = stone_cards + 1 end
+                if SMODS.has_enhancement(removed_card, "m_stone") then d_stone_cards = d_stone_cards + 1 end
             end
-            if stone_cards > 0 then
-                card.ability.extra.chips = card.ability.extra.chips + stone_cards * card.ability.extra.chip_mod
-                return {  message = localize('k_upgrade_ex'), colour = G.C.CHIPS, message_card = card }
+        if d_stone_cards > 0 then
+            card.ability.extra.Xchips = card.ability.extra.Xchips + card.ability.extra.Xchips_mod 
+            return {  message = localize('k_upgrade_ex'), colour = G.C.CHIPS, message_card = card }
             end
+        end
+        if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, "m_stone") and not context.blueprint then
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+            return { message = localize('k_upgrade_ex'), colour = G.C.GREEN, message_card = card }
         end
         if context.joker_main then
             return {
-                chips = card.ability.extra.chips
+                chips = card.ability.extra.chips,
+                xchips = card.ability.extra.Xchips,
             }
         end
     end,
@@ -347,7 +408,7 @@ SMODS.Joker {
     discovered = true, --Descubierto por default
     pos = { x = 5, y = 0}, --Posicion asset
 
-    config = { extra = { odds = 1000, Xchips = 2 } },
+    config = { extra = { odds = 1000, Xchips = 3 } },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.Xchips, G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
     end,
