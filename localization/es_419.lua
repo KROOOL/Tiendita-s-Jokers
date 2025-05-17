@@ -73,7 +73,7 @@ return {
         text = {
           "Si tu {C:attention}mano jugada{} tiene solo",
           "{C:attention}1{} carta {C:attention}+#1#{} tamaño de la mano",
-          " en esta ronda",
+          " en esta ronda,",
           "{C:red}#2#{} descarte",
         }
       },
