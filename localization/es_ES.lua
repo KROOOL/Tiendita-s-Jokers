@@ -108,7 +108,14 @@ return {
         },
       },
 
-    
+      j_tiendita_d4c = {
+        name = "D4C",
+        text = {
+            "Si la mano descartada tiene {C:attention}2{}",
+            "cartas de la misma {C:attention}categoria{}",
+            "{C:attention}destruye{} ambas cartas",
+        }
+      }
 
     }
   },
