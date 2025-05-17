@@ -119,7 +119,8 @@ return {
       k_nye = "NyE",
       k_change = "¡¡Cambio!!",
       k_blow = "Inflado",
-      k_pop = "¡POP!"
+      k_pop = "¡POP!",
+      k_dojya = "DOJYAAA~N"
     }
   }
 
