@@ -98,7 +98,7 @@ return {
         },
       },
 
-      j_tiendita_ballon = {
+      j_tiendita_balloon = {
         name = "Globo",
         text = {
             "{C:attention}+#1#{} multi cada ronda",

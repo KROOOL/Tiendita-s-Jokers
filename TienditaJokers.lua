@@ -26,7 +26,7 @@ SMODS.Joker {
     soul_pos = { x = 0, y = 1}, --Posicion soul asset
     config = { 
         extra = {
-            x_mult = 1, x_mult_gain = 0.15
+            x_mult = 1, x_mult_gain = 0.2
         } 
     }, -- Parametros
     loc_vars = function(self,info_queue,center)
@@ -99,7 +99,7 @@ SMODS.Joker {
         text = {
             "If your {C:attention}played hand{} has only",
             "{C:attention}1{} card {C:attention}+#1#{} hand size",
-            " in the current round",
+            " in the current round,",
             "{C:red}#2#{} discard",
         },
     },
@@ -295,7 +295,7 @@ SMODS.Joker {
         text = {
             "This Joker gains ",
             "{X:blue,C:white}X#1#{} Chips for destroyed {C:attention}stone{} card",
-            "{C:chips}+#2#{} Chips for played {C:attention}stone{} card}",
+            "{C:chips}+#2#{} Chips for played {C:attention}stone{} card",
             "{C:inactive}[Currently {C:chips}+#4#{}{C:inactive} & {X:blue,C:white}X#3#{C:inactive} Chips]{}",
         },
     },
@@ -307,7 +307,7 @@ SMODS.Joker {
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default
     pos = { x = 3, y = 1}, --Posicion asset
-    config = { extra = { chip_mod = 30, Xchips_mod = 0.15, chips = 0, Xchips = 1} },
+    config = { extra = { chip_mod = 25, Xchips_mod = 0.15, chips = 0, Xchips = 1} },
     loc_vars = function(self, info_queue, card)
          return { vars = { card.ability.extra.Xchips_mod ,card.ability.extra.chip_mod, card.ability.extra.Xchips, card.ability.extra.chips}}
     end,
@@ -515,9 +515,9 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
-    key = 'ballon',
+    key = 'balloon',
     loc_txt = {
-        name = "Ballon", --Nombre
+        name = "Balloon", --Nombre
         text = {
             "{C:attention}+#1#{} Mult each round",
             "{C:green}#2# in #3#{} chance this",

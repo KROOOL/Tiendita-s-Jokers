@@ -5,7 +5,7 @@ LocalThunk for making Balatro
 
 Credits -
 KROOOL - Programming and Sprite,
-Tesi - Programming and Sprite.
+Armed_Teso - Programming and Sprite.
 
 Other Credits (I used the code for to learn how all works) -
 nh6574 - Vanilla Remade,
