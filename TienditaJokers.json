@@ -5,5 +5,5 @@
     "description": "Custom Tiendita's Jokers & more!",
     "prefix": "tiendita",
     "main_file": "TienditaJokers.lua",
-    "version": "0.5.2"
+    "version": "0.9.5"
 }
