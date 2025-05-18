@@ -335,14 +335,16 @@ SMODS.Joker {
     end,
 }
 
+--Queria hacer otra cosa para d4c pero no jalo, si alguien lee esto y lo arregla le doy 5 peso
+--O si yo del futuro quiere recordar la idea: si la mano descartada contiene un par destruye estos pares
 SMODS.Joker {
     key = 'd4c',
     loc_txt = {
         name = "D4C", --Nombre
         text = {
-            "If discard hand contain {C:attention}2{}",
-            "cards of the same {C:attention}rank{}",
-            "{C:attention}destroy{} both cards",
+            "If discard hand contain exactly {C:attention}3{}",
+            "cards and two of them are of the same {C:attention}rank{}",
+            "{C:attention}destroy{} all cards",
         },
     },
     atlas = 'TienditaJokers',
@@ -403,7 +405,7 @@ SMODS.Joker {
         end
 
         if context.discard and context.cardarea == G.jokers and not context.blueprint then
-            if #context.full_hand < 2 then return nil end
+            if #context.full_hand ~= 3 then return nil end
             local destroyed_cards = {}
 
             for i = #G.hand.cards, 1, -1 do
