@@ -227,12 +227,29 @@ SMODS.Joker{
     calculate = function (self, card, context)
         local edition = nil
         local encanto = 0
-        if context.individual and context.cardarea == G.play and context.other_card:is_face() then   
-            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.editi then
-                encanto = encanto + 1
-                edition = poll_edition(wheel_of_fortune, nil, true, true)
-                context.other_card:set_edition(edition, nil, true)
-            end
+        if context.individual and context.cardarea == G.play and context.other_card:is_face() then  
+            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.feis then
+                if context.other_card.facing == "front" then
+                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,context.other_card:flip()}))
+                end
+                local card = context.other_card
+                local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+                local edition_poll = pseudorandom(pseudoseed('paleta_payaso'))
+                local rank_suffix = card.base.id
+                if edition_poll > 1 - 0.01*25 and rank_suffix ~= 13 then
+                    rank_suffix = 'K'
+                    encanto = encanto +1
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                elseif edition_poll > 1 - 0.02*25 and rank_suffix ~= 12 then
+                    rank_suffix = "Q"
+                    encanto = encanto +1
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                elseif rank_suffix ~= 11 then
+                    rank_suffix = 'J'
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                    encanto = encanto +1
+                end  
+            end 
             if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.enhance then
                 encanto = encanto + 1
                 local edition_poll = pseudorandom(pseudoseed('paleta_payaso'))
@@ -252,36 +269,24 @@ SMODS.Joker{
                     context.other_card:set_ability(G.P_CENTERS.m_bonus, nil, true)
                 else
                     context.other_card:set_ability(G.P_CENTERS.m_wild, nil, true)
-                end                
+                end         
             end
-            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.feis then
-                local card = context.other_card
-                local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
-                local edition_poll = pseudorandom(pseudoseed('paleta_payaso'))
-                local rank_suffix = card.base.id
-                if edition_poll > 1 - 0.01*25 and rank_suffix ~= 13 then
-                    rank_suffix = 'K'
-                    delay(0.4)
-                    encanto = encanto +1
-                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
-                elseif edition_poll > 1 - 0.02*25 and rank_suffix ~= 12 then
-                    rank_suffix = "Q"
-                    delay(0.4)
-                    encanto = encanto +1
-                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
-                elseif rank_suffix ~= 11 then
-                    rank_suffix = 'J'
-                    delay(0.4)
-                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
-                    encanto = encanto +1
-                end    
+            if pseudorandom('paleta_payaso') < G.GAME.probabilities.normal / card.ability.extra.editi then
+                if context.other_card.facing == "front" then
+                    G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,context.other_card:flip()}))
+                end
+                encanto = encanto + 1
+                edition = poll_edition(wheel_of_fortune, nil, true, true)
+                context.other_card:set_edition(edition, nil, true)
+            end
+            if context.other_card.facing == "back" then
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,context.other_card:flip()}))
             end
             if encanto > 0 then
                 return{
-                    message = localize('k_change'),
+                    message = "Change!!",
                     colour = G.C.GREEN,
                     message_card = card
-
                 }
             end
         end        
