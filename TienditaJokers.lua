@@ -731,3 +731,43 @@ SMODS.Joker {
         return G.GAME.pool_flags.tiendita_junaluska_extinct
     end
 }
+
+SMODS.Joker {
+    key = 'alien',
+    loc_txt = {
+        name = "Alien Joker",
+        text = {
+            "{C:chips}+#1#{} Chips per {C:blue}Planet{}",
+            "card used this run",
+            "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
+        }
+    },
+    atlas = 'TienditaJokers',
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = true,
+    eternal_compat = false,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 2, y = 3}, --Posicion asset
+    config = { extra = { chips = 0, chip_mod = 10 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.chip_mod, card.ability.extra.chips } }
+    end,
+    calculate = function(self, card, context)
+        if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
+            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+            return {
+                message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
+                colour = G.C.CHIPS
+                
+            }
+        end
+        if context.joker_main then
+            return {
+                chips = card.ability.extra.chips,
+                colour = G.C.CHIPS
+            }
+        end
+    end
+}
