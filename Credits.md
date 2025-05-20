@@ -17,6 +17,7 @@ Special Credits -
 nh6574 (hi) - for help and teach me code,
 BoxWari - sprites and snake idea,
 Arlert - for the moai idea,
+Traxus -  for standarize joker descriptions,
 The balatro discord server: https://discord.gg/TwuDKkSa.
 
 Special Thanks -

@@ -10,7 +10,7 @@ SMODS.Joker {
     loc_txt = {
         name = "Yu Sze", --Nombre
         text = { --Informacion sobre lo q hace
-            "Gains {X:mult,C:white} X#2# {} Mult each time",
+            "This Joker gains {X:mult,C:white}X#2#{} Mult each time",
             "a {C:attention}Stone{} card is scored",
             "{C:inactive}(Currently {X:mult,C:white} X#1# {C:inactive} Mult)",
         },
@@ -64,8 +64,9 @@ SMODS.Joker {
     loc_txt = {
         name = "Cepillin", --Nombre
         text = { --Informacion sobre lo q hace
-            "When a {C:attention}#1#{} of {C:attention}5{} Cards is played",
-            "then all scored Cards retrigger {C:attention}#2#{} additional times"
+            "Retrigger all played cards {C:attention}#2#{} additional times", 
+            "if {C:attention}played hand{} is {C:attention}#1#{}",
+            "and contains {C:attention}5{} cards",
         },
     },
     atlas = 'TienditaJokers',
@@ -97,9 +98,9 @@ SMODS.Joker {
     loc_txt = {
         name = "Snake", --Nombre
         text = {
-            "If your {C:attention}played hand{} has only",
+            "If {C:attention}played hand{} has only",
             "{C:attention}1{} card {C:attention}+#1#{} hand size",
-            " in the current round,",
+            "in the current round,",
             "{C:red}#2#{} discard",
         },
     },
@@ -145,9 +146,9 @@ SMODS.Joker {
     loc_txt = {
         name = "Souls", --Nombre
         text = {
-            "After {C:attention}#1#{} rounds",
-            "sells this card to",
-            "create a {C:purple}The Soul{} card",
+            "After {C:attention}#1#{} rounds,",
+            "sell this card to",
+            "create a free {C:purple}The Soul{} card",
             "{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)",
         },
     },
@@ -202,7 +203,7 @@ SMODS.Joker{
         name = "Paleta Payaso",
         text = {
             "All scored {C:attention}#1#{} cards have",
-            "{C:green}#2# in #3#{} chance to convert to another {C:attention}#1#{} card",
+            "{C:green}#2# in #3#{} chance to change to another {C:attention}#1#{} card",
             "{C:green}#2# in #4#{} chance to change its {C:attention}#6#",
             "{C:green}#2# in #5#{} chance to change its {C:attention}#7#",
         },
@@ -284,7 +285,7 @@ SMODS.Joker{
             end
             if encanto > 0 then
                 return{
-                    message = "Change!!",
+                    message = localize('k_change'),
                     colour = G.C.GREEN,
                     message_card = card
                 }
@@ -299,8 +300,8 @@ SMODS.Joker {
         name = "Moai", --Nombre
         text = {
             "This Joker gains ",
-            "{X:blue,C:white}X#1#{} Chips for destroyed {C:attention}stone{} card",
-            "{C:chips}+#2#{} Chips for played {C:attention}stone{} card",
+            "{X:blue,C:white}X#1#{} Chips for each destroyed {C:attention}Stone{} card",
+            "{C:chips}+#2#{} Chips for each played {C:attention}Stone{} card",
             "{C:inactive}[Currently {C:chips}+#4#{}{C:inactive} & {X:blue,C:white}X#3#{C:inactive} Chips]{}",
         },
     },
@@ -448,7 +449,7 @@ SMODS.Joker {
         name = "Lucky Clover", --Nombre
         text = {
             "Played {C:attention}#1#{} cards have",
-            "{C:green}#2# in #3#{} to become",
+            "{C:green}#2# in #3#{} chance to become",
             "{C:attention}Lucky{} cards when scored",
         },
     },
@@ -526,10 +527,10 @@ SMODS.Joker {
     loc_txt = {
         name = "Balloon", --Nombre
         text = {
-            "{C:attention}+#1#{} Mult each round",
+            "{C:mult}+#1#{} Mult each round",
             "{C:green}#2# in #3#{} chance this",
-            "card is destroyed at end of round",
-            "{C:inactive}(Currently {C:attention}+#4#{C:inactive} Mult)",
+            "is destroyed at end of round",
+            "{C:inactive}(Currently {C:mult}+#4#{C:inactive} Mult)",
         },
     },
     atlas = 'TienditaJokers',
@@ -547,7 +548,7 @@ SMODS.Joker {
 
     calculate = function(self, card, context)
         if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
-            if pseudorandom('tiendita_ballon') < G.GAME.probabilities.normal / card.ability.extra.odds then
+            if pseudorandom('tiendita_balloon') < G.GAME.probabilities.normal / card.ability.extra.odds then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')
@@ -567,7 +568,7 @@ SMODS.Joker {
                         return true
                     end
                 }))
-                G.GAME.pool_flags.tiendita_ballon_extinct = true
+                G.GAME.pool_flags.tiendita_balloon_extinct = true
                 return {
                     message = localize('k_pop')
                 }
@@ -607,7 +608,7 @@ SMODS.Joker {
         text = {
             "{C:chips}+#1#{} Chips",
             "{C:green}#2# in #3#{} chance this",
-            "card is destroyed",
+            "is destroyed",
             "at end of round",
         },
     },
@@ -673,7 +674,7 @@ SMODS.Joker {
         text = {
             "{X:blue,C:white} X#1#{} Chips",
             "{C:green}#2# in #3#{} chance this",
-            "card is destroyed",
+            "is destroyed",
             "at end of round",
         },
     },
@@ -737,7 +738,7 @@ SMODS.Joker {
     loc_txt = {
         name = "Alien Joker",
         text = {
-            "{C:chips}+#1#{} Chips per {C:blue}Planet{}",
+            "{C:chips}+10{} Chips per {C:blue}Planet{}",
             "card used this run",
             "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
         }
@@ -750,24 +751,61 @@ SMODS.Joker {
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default
     pos = { x = 2, y = 3}, --Posicion asset
-    config = { extra = { chips = 0, chip_mod = 10 } },
+    --Por alguna razon multiplica eso x2??????
+    config = { extra = { chips = 5} },
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.chip_mod, card.ability.extra.chips } }
+        return { vars = { card.ability.extra.chips, card.ability.extra.chips * (G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.planet or 0) } }
     end,
     calculate = function(self, card, context)
-        if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
-            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chip_mod
+        if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == "Planet" then
             return {
-                message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } },
-                colour = G.C.CHIPS
-                
+                message = localize { type = 'variable', key = 'a_chips', vars = { (card.ability.extra.chips*2) } },
+                colour = G.C.CHIPS,
             }
         end
         if context.joker_main then
             return {
-                chips = card.ability.extra.chips,
-                colour = G.C.CHIPS
+                chips = card.ability.extra.chips *
+                    (G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.planet or 0),
+                    colour = G.C.CHIPS
             }
         end
+    end,
+}
+
+SMODS.Joker {
+    key = 'bald',
+    loc_txt = {
+        name = "Bald Joker",
+        text = {
+            "{C:mult}+#1#{} Mult",
+            "{C:green}#2# in #3#{} chance to ",
+            "{X:mult,C:white}X#4#{} Mult",
+        }
+    },
+    atlas = 'TienditaJokers',
+    rarity = 1,
+    cost = 6,
+    blueprint_compat = true,
+    eternal_compat = false,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 3, y = 3}, --Posicion asset
+    config = { extra = { mult = 25, odds = 7, Xmult = 0.8 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.mult ,G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds, card.ability.extra.Xmult } }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            if pseudorandom('tiendita_bald') < G.GAME.probabilities.normal / card.ability.extra.odds then
+                return{
+                    Xmult = card.ability.extra.Xmult
+                }
+            end
+            return {
+                mult = card.ability.extra.mult
+            }
+        end
+
     end
 }

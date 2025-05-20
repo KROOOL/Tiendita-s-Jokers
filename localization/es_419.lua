@@ -5,7 +5,7 @@ return {
       j_tiendita_yu_sze = {
         name = "Yu Sze",
         text = { --Informacion sobre lo q hace
-          "Este comodín obtiene {X:mult,C:white} X#2# {} multi",
+          "Este comodín obtiene {X:mult,C:white}X#2#{} multi",
           "cada vez que una carta de {C:attention}piedra{}",
           "es jugada",
           "{C:inactive}(Actual {X:mult,C:white} X#1# {C:inactive} multi)",
@@ -15,9 +15,10 @@ return {
       j_tiendita_cepillin = {
         name = "Cepillin",
         text = { --Informacion sobre lo q hace
-           "Cuando tu mano jugada es {C:attention}#1#{}",
-            "y tiene {C:attention}5{} cartas, reactiva todas",
-            "tus cartas al anotar {C:attention}#2#{} veces adicionales"
+          "Reactiva todas las cartas jugadas ",
+          "{C:attention}#2#{} veces adicionales si tu",
+          "{C:attention}mano jugada{} es {C:attention}#1#{}",
+          "y tiene {C:attention}5{} cartas",
         },
       },
 
@@ -53,7 +54,7 @@ return {
         text = { --Informacion sobre lo q hace
           "Las cartas jugadas de {C:attention}#1#{}",
           "tienen {C:green}#2# en #3#{} de volverse",
-          "cartas de la {C:attention}suerte{}",
+          "cartas de la {C:attention}suerte{} cuando anotan",
         },
       },
 
@@ -73,7 +74,7 @@ return {
         text = {
           "Si tu {C:attention}mano jugada{} tiene solo",
           "{C:attention}1{} carta {C:attention}+#1#{} tamaño de la mano",
-          " en esta ronda,",
+          "en esta ronda,",
           "{C:red}#2#{} descarte",
         }
       },
@@ -82,7 +83,7 @@ return {
         name = "Paleta Payaso",
         text = {
             "Todas las cartas de {C:attention}figura{} jugadas tienen",
-            "{C:green}#2# en #3#{} probabilidades de convertirse en otra carta de {C:attention}figura{}",
+            "{C:green}#2# en #3#{} probabilidades de cambiar a otra carta de {C:attention}figura{}",
             "{C:green}#2# en #4#{} probabilidades de cambiar su {C:attention}Mejora",
             "{C:green}#2# en #5#{} probabilidades de cambiar su {C:attention}Edición",
         },
@@ -101,10 +102,10 @@ return {
       j_tiendita_balloon = {
         name = "Globo",
         text = {
-            "{C:attention}+#1#{} multi cada ronda",
+            "{C:mult}+#1#{} multi cada ronda",
             "{C:green}#2# en #3#{} probabilidades de que la carta",
             "se destruya al final de la ronda",
-            "{C:inactive}(Actual {C:attention}+#4#{C:inactive} multi)",
+            "{C:inactive}(Actual {C:mult}+#4#{C:inactive} multi)",
         },
       },
 
@@ -115,7 +116,25 @@ return {
             "cartas y dos de estas son de la misma {C:attention}categoria{}",
             "{C:attention}destruye{} todas las cartas",
         }
-      }
+      },
+
+      j_tiendita_alien = {
+        name = "Comodín alien",
+        text = {
+            "{C:chips}+10{} fichas por cada",
+            "carta de {C:blue}Planeta{} usada",
+            "{C:inactive}(Actual {C:chips}+#2#{C:inactive})",
+        }
+      },
+
+      j_tiendita_bald = {
+        name = "Comodín pelón",
+        text = {
+            "{C:mult}+#1#{} multi",
+            "{C:green}#2# en #3#{} probabilidades de ",
+            "{X:mult,C:white}X#4#{} multi",
+        }
+      },
 
     }
   },
