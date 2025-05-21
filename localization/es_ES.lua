@@ -135,6 +135,54 @@ return {
             "{X:mult,C:white}X#4#{} multi",
         }
       },
+      
+      j_tiendita_baby = {
+        name = "Comodín bebé",
+        text = {
+            "Este comodín gana {X:mult,C:white}X#1#{} multi cuando",
+            "algun {C:attention}2{}, {C:attention}3{}, {C:attention}4{} or {C:attention}5{} es jugado",
+            "{C:inactive}(Actualmente {X:mult,C:white}X#2#{C:inactive} multi)",
+        }
+      },
+
+      j_tiendita_otherhalf = {
+        name = "El otro medio comodín",
+        text = {
+            "{C:mult}+#1#{} multi",
+            "si la mano contiene",
+            "{C:attention}#2#{} o menos cartas",
+        }
+      },
+
+      j_tiendita_piggy_bank = {
+        name = "Alcancía",
+        text = {
+          "Gana {C:money}$#2#{}",
+          "{C:attention}del valor de venta{}",
+          "por cada {C:money}$#1#{} que tengas",
+          "al final de la tienda",
+        }
+      },
+
+      j_tiendita_d6 = {
+        name = "D6",
+        text = {
+          "{C:attention}Vende{} esta carta para destruir todos los",
+          "demás comodines y crear {C:attention}comodines aleatorios",
+          "{C:attention}iguales{} al numero de comodines destruidos",
+        }
+      },
+
+      j_tiendita_damocles = {
+        name = "Damocles",
+        text = {
+          "{X:mult,C:white}X#1#{} multi,",
+          "Cuando se selecciona la {C:attention}ciega{}",
+          "{C:green}#2# en #3#{} probabilidades de",
+          "dejar tus manos en {C:attention}1{}",
+          "y {C:attention}perdes todos los descartes{} durante la ciega",
+        }
+      },
 
     }
   },
@@ -146,8 +194,8 @@ return {
       k_change = "¡¡Cambio!!",
       k_blow = "Inflado",
       k_pop = "¡POP!",
-      k_dojya = "DOJYAAA~N"
+      k_dojya = "DOJYAAA~N",
+      k_damocles = "Codicia",
     }
-  }
-
+  },
 }

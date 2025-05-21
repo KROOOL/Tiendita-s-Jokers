@@ -295,6 +295,48 @@ SMODS.Joker{
 }
 
 SMODS.Joker {
+    key = 'damocles',
+    loc_txt = {
+        name = "Damocles",
+        text = {
+            "{X:mult,C:white}X#1#{} Mult,",
+            "when {C:attention}blind{} is selected {C:green}#2# in #3#{} chances",
+            "to set hands to {C:attention}1{}",
+            "and {C:attention}lose all discards{}",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 3,
+    cost = 8,
+    blueprint_compat = true,
+    eternal_compat = false,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 7, y = 0}, --Posicion asset
+    config = { extra = {Xmult = 4, odds = 6}, },
+    loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.Xmult , G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+    end,
+    calculate = function(self, card, context)
+        if context.setting_blind and not context.blueprint and not context.repetition and 
+            pseudorandom('tiendita_damocles') < G.GAME.probabilities.normal / card.ability.extra.odds then
+               ease_hands_played(1 - G.GAME.current_round.hands_left)
+               ease_discard(-G.GAME.current_round.discards_left, nil, true)
+               return{
+                message = localize("k_damocles"),
+                colour = G.C.RED,
+                message_card = card
+                }
+        end
+        if context.joker_main then
+            return{
+                Xmult = card.ability.extra.Xmult
+            }
+        end
+    end
+}
+
+SMODS.Joker {
     key = 'moai',
     loc_txt = {
         name = "Moai", --Nombre
@@ -444,6 +486,61 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+    key = "d6",
+    loc_txt = {
+        name = "D6",
+        text = {
+            "{C:attention}Sell{} this Joker to destroy all other",
+            "Jokers and create {C:attention}random Jokers",
+            "{C:attention}equal{} to the amount of Jokers destroyed",
+        },
+    },
+    atlas = 'TienditaJokers',
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = false,
+    eternal_compat = false,
+    unlocked = true,
+    discovered = true,
+    pos = {x = 0, y = 5},
+    config = {extra = {tdestroy = 0, judge = "Judgement", legend = "The Soul"}},
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.tdestroy}}
+    end,
+    calculate = function(self, card, context)
+        local deletable_jokers = {}
+        if context.selling_self then
+            for k, v in pairs(G.jokers.cards) do
+                if not v.ability.eternal then deletable_jokers[#deletable_jokers + 1] = v end
+                card.ability.extra.tdestroy = card.ability.extra.tdestroy + 1
+            end
+        end
+        local chosen_joker = ""
+        local _first_dissolve = nil
+        for k, v in pairs(deletable_jokers) do
+            if v ~= chosen_joker then 
+                v:start_dissolve(nil, _first_dissolve)
+                _first_dissolve = true
+            end
+        end
+        table.remove(deletable_jokers, 1)
+        if card.ability.extra.tdestroy > 0 then
+            for k, v in pairs(deletable_jokers) do
+                local edition_poll = pseudorandom(pseudoseed('paleta_payaso'))
+                local carta
+                if edition_poll > 1 - 0.05 then
+                    carta = create_card('Joker', G.jokers, card.ability.extra.legend == 'The Soul', nil, nil, nil, nil, card.ability.extra.legend == '' and 'jud' or 'sou')
+                else
+                    carta = create_card('Joker', G.jokers, card.ability.extra.judge == '', nil, nil, nil, nil, card.ability.extra.judge == 'Judgement' and 'jud' or 'sou')
+                end
+                carta:add_to_deck()
+                G.jokers:emplace(carta)
+            end
+        end
+    end
+}
+
+SMODS.Joker {
     key = 'lucky_clover',
     loc_txt = {
         name = "Lucky Clover", --Nombre
@@ -520,6 +617,83 @@ SMODS.Joker {
             }
         end
     end,
+}
+
+SMODS.Joker {
+    key = 'baby',
+    loc_txt = {
+        name = "Baby Joker",
+        text = {
+            "This Joker gains {X:mult,C:white}X#1#{} Mult when",
+            "{C:attention}2{}, {C:attention}3{}, {C:attention}4{} or {C:attention}5{} is played",
+            "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",}
+    },
+    atlas = 'TienditaJokers',
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true, 
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 4, y = 3}, --Posicion asset
+    pixel_size = { w = 38, h =  49},
+    config =  { extra = {Xmult_mod = 0.05, Xmult = 1 } },
+     -- Parametros
+    loc_vars = function(self, info_queue, card)
+        return {
+            vars = {card.ability.extra.Xmult_mod, card.ability.extra.Xmult}
+        }
+    end,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play and not context.blueprint then
+            if context.other_card:get_id() == 2 or
+                context.other_card:get_id() == 3 or
+                context.other_card:get_id() == 4 or
+                context.other_card:get_id() == 5 then
+                    card.ability.extra.Xmult = card.ability.extra.Xmult + card.ability.extra.Xmult_mod
+                    return {
+                        message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+                        message_card = card,
+                    } 
+            end
+        end
+        if context.joker_main then 
+            return {
+                xmult = card.ability.extra.Xmult
+            }
+        end
+    end
+}
+
+SMODS.Joker {
+    key = 'otherhalf',
+    loc_txt = {
+        name = "Other Half Joker",
+        text = {
+            "{C:mult}+#1#{} Mult if played",
+            "hand contains",
+            "{C:attention}#2#{} or fewer hands",
+        }
+    },
+    atlas = 'TienditaJokers',
+    rarity = 2,
+    cost = 6,
+    blueprint_compat = true,
+    eternal_compat = true,  
+    unlocked = true, --Desbloqueado por default
+    discovered = true, --Descubierto por default
+    pos = { x = 6, y = 0}, --Posicion asset
+    pixel_size = { w = 71, h =  48},
+    config = { extra = { mult = 30, size = 2 } },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.mult, card.ability.extra.size } }
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main and #context.full_hand <= card.ability.extra.size then
+            return {
+                mult = card.ability.extra.mult
+            }
+        end
+    end
 }
 
 SMODS.Joker {
@@ -601,6 +775,43 @@ SMODS.Joker {
     end,
 }
 
+SMODS.Joker{
+    key = 'piggy_bank',
+    loc_txt={
+        name = "Piggy Bank",
+        text = {
+            "This Joker gains {C:money}$#2#{} of",
+            "{C:attention}sell value{} per each {C:money}$#1#{}",
+            "that you have when",
+            "exiting the shop",
+        },
+    },
+    atlas = "TienditaJokers",
+    rarity = 1,
+    cost = 5,
+    blueprint_compat = false,
+    eternal_compat = false,
+    unlocked = true,
+    discovered = true,
+    pos = {x = 0, y = 5},
+    config = {extra = {mplus = 1, mmineed = 5}},
+
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.mmineed, card.ability.extra.mplus}}
+    end,
+
+    calculate = function(self, card, context)
+        if context.ending_shop then
+            card.ability.extra_value = card.ability.extra_value + math.floor(G.GAME.dollars / card.ability.extra.mmineed)
+            card:set_cost()
+            return{
+                message = localize("k_val_up"),
+                colour = G.C.MONEY
+            }
+        end
+    end
+}
+
 SMODS.Joker {
     key = 'junaluska',
     loc_txt = {
@@ -680,7 +891,7 @@ SMODS.Joker {
     },
     atlas = 'TienditaJokers',
     rarity = 1,
-    cost = 5,
+    cost = 4,
     blueprint_compat = true,
     eternal_compat = false,  
     unlocked = true, --Desbloqueado por default
@@ -747,7 +958,7 @@ SMODS.Joker {
     rarity = 1,
     cost = 5,
     blueprint_compat = true,
-    eternal_compat = false,  
+    eternal_compat = true,  
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default
     pos = { x = 2, y = 3}, --Posicion asset
@@ -787,7 +998,7 @@ SMODS.Joker {
     rarity = 1,
     cost = 6,
     blueprint_compat = true,
-    eternal_compat = false,  
+    eternal_compat = true,  
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default
     pos = { x = 3, y = 3}, --Posicion asset
@@ -806,6 +1017,5 @@ SMODS.Joker {
                 mult = card.ability.extra.mult
             }
         end
-
     end
 }

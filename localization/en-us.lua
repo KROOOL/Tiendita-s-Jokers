@@ -6,7 +6,8 @@ return {
       k_change = "Change!!",
       k_blow = "Blow Up",
       k_pop = "¡POP!",
-      k_dojya = "DOJYAAA~N"
+      k_dojya = "DOJYAAA~N",
+      k_damocles = "Greed",
     }
   }
 }

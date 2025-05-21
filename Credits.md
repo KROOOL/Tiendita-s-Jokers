@@ -5,7 +5,8 @@ LocalThunk for making Balatro
 
 Credits -
 KROOOL - Programming and Sprite,
-Armed_Teso - Programming and Sprite.
+Armed_Teso - Programming and Sprite,
+BoxWari - Ideas and Sprite.
 
 Other Credits (I used the code for to learn how all works) -
 nh6574 - Vanilla Remade,
@@ -18,6 +19,7 @@ nh6574 (hi) - for help and teach me code,
 BoxWari - sprites and snake idea,
 Arlert - for the moai idea,
 Traxus -  for standarize joker descriptions,
+chaseoqueso - for help me with damocles code,
 The balatro discord server: https://discord.gg/TwuDKkSa.
 
 Special Thanks -
