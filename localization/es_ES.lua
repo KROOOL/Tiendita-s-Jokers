@@ -180,7 +180,7 @@ return {
           "Cuando se selecciona la {C:attention}ciega{}",
           "{C:green}#2# en #3#{} probabilidades de",
           "dejar tus manos en {C:attention}1{}",
-          "y {C:attention}perdes todos los descartes{} durante la ciega",
+          "y {C:attention}perdes todos los descartes{}",
         }
       },
 
