@@ -502,7 +502,7 @@ SMODS.Joker {
     eternal_compat = false,
     unlocked = true,
     discovered = true,
-    pos = {x = 0, y = 5},
+    pos = {x = 8, y = 0},
     config = {extra = {tdestroy = 0, judge = "Judgement", legend = "The Soul"}},
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.tdestroy}}
@@ -671,7 +671,7 @@ SMODS.Joker {
         text = {
             "{C:mult}+#1#{} Mult if played",
             "hand contains",
-            "{C:attention}#2#{} or fewer hands",
+            "{C:attention}#2#{} or fewer cards",
         }
     },
     atlas = 'TienditaJokers',
@@ -703,7 +703,7 @@ SMODS.Joker {
         text = {
             "{C:mult}+#1#{} Mult each round",
             "{C:green}#2# in #3#{} chance this",
-            "is destroyed at end of round",
+            "card is destroyed at end of round",
             "{C:inactive}(Currently {C:mult}+#4#{C:inactive} Mult)",
         },
     },
@@ -819,7 +819,7 @@ SMODS.Joker {
         text = {
             "{C:chips}+#1#{} Chips",
             "{C:green}#2# in #3#{} chance this",
-            "is destroyed",
+            "card is destroyed",
             "at end of round",
         },
     },
@@ -885,7 +885,7 @@ SMODS.Joker {
         text = {
             "{X:blue,C:white} X#1#{} Chips",
             "{C:green}#2# in #3#{} chance this",
-            "is destroyed",
+            "card is destroyed",
             "at end of round",
         },
     },
