@@ -1,0 +1,3 @@
+return {
+  ["Jokers"] = true,
+}

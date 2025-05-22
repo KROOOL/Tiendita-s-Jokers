@@ -1,9 +1,9 @@
 {
     "id": "tiendita_jokers",
-    "name": "Tiendita's Jokers",
+    "name": "Tiendita's",
     "author": ["KROOOL", "Armed-Teso"],
     "description": "Custom Tiendita's Jokers & more!",
     "prefix": "tiendita",
     "main_file": "TienditaJokers.lua",
-    "version": "0.9.5"
+    "version": "1.1.0"
 }
