@@ -7,7 +7,7 @@ local joker = {
     eternal_compat = false,
     unlocked = true,
     discovered = true,
-    pos = {x = 0, y = 5},
+    pos = {x = 6, y = 1},
     config = {extra = {mplus = 1, mmineed = 5}},
 
     loc_vars = function(self, info_queue, card)
@@ -15,7 +15,7 @@ local joker = {
     end,
 
     calculate = function(self, card, context)
-        if context.ending_shop then
+        if context.ending_shop and G.GAME.dollars >= 5 then
             card.ability.extra_value = card.ability.extra_value + math.floor(G.GAME.dollars / card.ability.extra.mmineed)
             card:set_cost()
             return{

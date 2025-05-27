@@ -180,8 +180,18 @@ return {
           "Cuando se selecciona la {C:attention}ciega{}",
           "{C:green}#2# en #3#{} probabilidades de",
           "dejar tus manos en {C:attention}1{}",
-          "y {C:attention}perdes todos los descartes{}",
+          "y {C:attention}pierdes todos los descartes{}",
         }
+      },
+      j_tiendita_headshot = {
+        name = "Headshot",
+        text = {
+            "Este comodín gana {X:mult,C:white}X#2#{} multi",
+            "cuando la {C:attention}Ciega{} es derrotada usando",
+            "solo {C:attention}1{} mano, si la Ciega no es",
+            "derrotada este Comodín es destruído",
+            "{C:inactive}(Actualmente {X:mult,C:white}X#1#{C:inactive} multi)",
+        },
       },
 
     }
@@ -194,6 +204,7 @@ return {
       k_change = "¡¡Cambio!!",
       k_blow = "Inflado",
       k_pop = "¡POP!",
+      k_spotted = "DESCUBIERTO!!",
       k_dojya = "DOJYAAA~N",
       k_damocles = "Codicia",
     }

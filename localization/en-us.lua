@@ -1,5 +1,6 @@
 local loc_tien = {
   descriptions = {
+    --Jokers
     Joker = {
       j_tiendita_yu_sze = {
         name = "Yu Sze", --Nombre
@@ -159,6 +160,67 @@ local loc_tien = {
           text = { --Informacion sobre lo q hace
               "Retrigger all played {C:attention}Stone{} cards",
           },
+      },
+      j_tiendita_headshot = {
+        name = "Headshot",
+        text = {
+            "This Joker gains {X:mult,C:white}X#2#{} Mult",
+            "when {C:attention}Blind{} is defeated using",
+            "only {C:attention}1{} hand, if Blind isn't",
+            "defeated then this Joker destroys itself",
+            "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+        },
+      },
+    },
+
+    --Enhanced
+    Enhanced = {
+      m_tiendita_slime = {
+        name = "Slime Card",
+        text = {
+          "{C:attention}#1# in #2#{} chance to add a",
+          "permanent copy to deck and",
+          "draw it to {C:attention}hand{}"
+        },
+      },
+      m_tiendita_snow = {
+        name = "Snow Card",
+        text = {
+          "{C:mult}+1{} Mult",
+          "per Snow Card in the hand played"
+        }
+      }
+    },
+
+    --Reverse rev_tarots
+    tiendita_ReverseTarot = {
+      c_tiendita_rev_chariot = {
+        name = "Reverse The Chariot",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
+        }
+      },
+      c_tiendita_rev_strength = {
+        name = "Reverse The Strength",
+        text = {
+          "Decreases rank of",
+          "up to {C:attention}2{} selected",
+          "cards by {C:attention}1{}"
+        }
+      }
+
+
+    },
+
+    --Blinds
+    Blind = {
+      bl_tiendita_toon = {
+        name = "The Toon", --Nombre
+          text = { --Informacion sobre lo q hace
+              "Must play 4 cards",
+          },
       }
     },
   },
@@ -171,6 +233,12 @@ local loc_tien = {
       k_pop = "¡POP!",
       k_dojya = "DOJYAAA~N",
       k_damocles = "Greed",
+      k_spotted = "SPOTTED!!",
+      b_tiendita_reversetarot_cards = "Reverse Tarot Cards",
+      k_tiendita_reversetarot = "Reverse Tarot",
+    },
+    labels = {
+      tiendita_reversetarots = "Reverse Tarot Cards",
     }
   }
 }

@@ -10,6 +10,7 @@ local joker = {
     pos = { x = 4, y = 1}, --Posicion asset
     config = { extra = {suit = 'Clubs', odds = 4 }, },
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
        return { vars = { localize(card.ability.extra.suit,'suits_singular'), G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
     end,
     calculate = function(self, card, context)

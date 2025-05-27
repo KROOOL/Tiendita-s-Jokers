@@ -11,6 +11,7 @@ local joker = {
     soul_pos = { x = 5, y = 3, },
     config = { extra = { soul_rounds = 0, total_rounds = 7 } },
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.c_soul
         return { vars = { card.ability.extra.total_rounds, card.ability.extra.soul_rounds }}
     end,
     calculate = function(self, card, context)
