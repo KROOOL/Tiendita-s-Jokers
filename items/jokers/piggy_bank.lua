@@ -15,7 +15,7 @@ local joker = {
     end,
 
     calculate = function(self, card, context)
-        if context.ending_shop and G.GAME.dollars >= 5 then
+        if context.ending_shop then
             card.ability.extra_value = card.ability.extra_value + math.floor(G.GAME.dollars / card.ability.extra.mmineed)
             card:set_cost()
             return{
