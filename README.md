@@ -7,6 +7,9 @@ See github page for details: https://kroool.github.io
 # Tiendita-s version : 1.0.5
 
 ## Tiendita-s versions :
+### 1.0.6
+Piggy Bank bug fix
+
 ### 1.0.5
 8 new Jokers <br>
 Minor bug fixes <br>
