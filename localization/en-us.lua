@@ -186,8 +186,10 @@ local loc_tien = {
       m_tiendita_snow = {
         name = "Snow Card",
         text = {
-          "{C:mult}+1{} Mult",
-          "per Snow Card in the hand played"
+          "{X:mult,C:white}+2{} Mult based on",
+          "the number of Snow Cards played",
+          "before this one this hand",
+          "{C:inactive}(Example: +2, +4, +8, +16, etc.){}"
         }
       }
     },
@@ -208,6 +210,23 @@ local loc_tien = {
           "Decreases rank of",
           "up to {C:attention}2{} selected",
           "cards by {C:attention}1{}"
+        }
+      },
+      c_tiendita_rev_empress = {
+        name = "Reverse The Empress",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
+        }
+      },
+      c_tiendita_rev_fool = {
+        name = "Reverse The Fool",
+        text = {
+          "Creates the last",
+          "{C:rev_tarots}Reverse Tarot{} card",
+          "used during this run",
+          "{s:0.8,C:rev_tarots}Reverse The Fool{s:0.8} excluded",
         }
       }
 

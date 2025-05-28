@@ -1,0 +1,14 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 214748364
+
+[[patches]] #Colors
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''tarot = G.C.SECONDARY_SET.Tarot,'''
+position = 'before'
+payload = '''
+rev_tarots = HEX("9d3c3c"),
+'''
+match_indent = true

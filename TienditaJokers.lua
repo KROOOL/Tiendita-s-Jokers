@@ -97,8 +97,8 @@ SMODS.Atlas({
   py = 95
 })
 
---assert(SMODS.load_file("items/enhancers.lua"))()
---assert(SMODS.load_file("items/rev_tarots.lua"))()
+assert(SMODS.load_file("items/enhancers.lua"))()
+assert(SMODS.load_file("items/rev_tarots.lua"))()
 
 --Blinds WIPS
 --Las vo a poner aca pq no creo hacer mas de 10 (espero)

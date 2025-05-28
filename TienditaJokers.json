@@ -6,5 +6,9 @@
     "prefix": "tiendita",
     "main_file": "TienditaJokers.lua",
     "version": "1.0.5",
-    "badge_colour": "3b9f72"
+    "badge_colour": "3b9f72",
+    "dependencies": [
+    "Steamodded (>=1.0.0~ALPHA-1423h)",
+    "Lovely (>=0.7.1)"
+    ]
 }
