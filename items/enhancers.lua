@@ -44,7 +44,8 @@ SMODS.Enhancement {
 -- Snow
 SMODS.Enhancement {
     key = 'snow',
-    pos = { x = 0, y = 0 },
+    atlas = 'enhancers',
+    pos = { x = 1, y = 0 },
     config = { smult = 1, mult_gain = 2},
 
     calculate = function(self, card, context)

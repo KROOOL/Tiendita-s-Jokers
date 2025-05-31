@@ -186,9 +186,9 @@ local loc_tien = {
       m_tiendita_snow = {
         name = "Snow Card",
         text = {
-          "{X:mult,C:white}+2{} Mult based on",
+          "{C:mult}X2{} Mult based on",
           "the number of Snow Cards played",
-          "before this one this hand",
+          "before this one in the hand",
           "{C:inactive}(Example: +2, +4, +8, +16, etc.){}"
         }
       }
@@ -228,8 +228,68 @@ local loc_tien = {
           "used during this run",
           "{s:0.8,C:rev_tarots}Reverse The Fool{s:0.8} excluded",
         }
-      }
+      },
+      c_tiendita_rev_emperor = {
+        name = "Reverse The Emperor",
+        text = {
+          "Creates up to {C:attention}#1#{}",
+          "random {C:rev_tarots}Reverse Tarot{} cards",
+          "{C:inactive}(Must have room)",
+        }
+      },
+      c_tiendita_rev_hermit = {
+        name = "Reverse The Hermit",
+        text = {
+          "Set money to {C:money}$#1#{}",
+        }
+      },
+      c_tiendita_rev_star = {
+        name = "Reverse The Star",
+        text = {
+          "Add {C:attention}#1#{} random {C:attention}Sealed{}",
+          "{C:diamonds}Diamond{} to your hand",
+        }
+      },
+      c_tiendita_rev_moon = {
+        name = "Reverse The Moon",
+        text = {
+          "Add {C:attention}#1#{} random {C:attention}Sealed{}",
+          "{C:clubs}Clubs{} to your hand",
+        }
+      },
+      c_tiendita_rev_sun = {
+        name = "Reverse The Sun",
+        text = {
+          "Add {C:attention}#1#{} random {C:attention}Sealed{}",
+          "{C:hearts}Hearts{} to your hand",
+        }
+      },
+      c_tiendita_rev_world = {
+        name = "Reverse The Moon",
+        text = {
+          "Add {C:attention}#1#{} random {C:attention}Sealed{}",
+          "{C:spades}Spades{} to your hand",
+        }
+      },
+      c_tiendita_rev_temperance = {
+        name = "Reverse Temperance",
+        text = {
+          "Gives {C:money}$#1#{} for each",
+          "empty {C:attention}Joker{} slot",
+          "{C:inactive}(Currently {C:money}$#2#{}{C:inactive}){}"
 
+        }
+      },
+      c_tiendita_rev_priestess = {
+        name = "Reverse Priestess",
+        text = {
+          "Creates up to {C:attention}#1#",
+          "{C:planet}Planet{} cards for your",
+          "least played {C:attention}poker hand{}",
+          "{C:inactive}(Must have room){}",
+
+        }
+      }
 
     },
 
