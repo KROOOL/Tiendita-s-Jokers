@@ -438,18 +438,118 @@ SMODS.Consumable({
     discovered = true,
 })
 
+--reverse death 
+--jaja la neta no se como hice esto, un saludo a la bandita que la sigue cotorreando y 
+--a gpt por ayudarme a mis fallos de logica, cada dia mas aca y aca
 SMODS.Consumable({
     object_type = "Consumable",
     set = 'tiendita_ReverseTarot',
     name = "rev_Death",
     key = "rev_death",
     pos = { x = 3, y = 1 },
-    config = {},
+    config = { max_highlighted = 2, min_highlighted = 2 },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.max_highlighted } }
+    end,
+    use = function(self, card, area, copier)
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+        for i = 1, #G.hand.highlighted do
+            local percent = 1.15 - (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('card1', percent)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+
+        delay(0.2)
+
+        -- Detecta carta de la izquierda
+        local leftmost = G.hand.highlighted[1]
+        for i = 1, #G.hand.highlighted do
+            if G.hand.highlighted[i].T.x < leftmost.T.x then
+                leftmost = G.hand.highlighted[i]
+            end
+        end
+
+
+        --Copia solo los encantamientos
+        for i = 1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    local src = leftmost
+                    local dst = G.hand.highlighted[i]
+                    if dst ~= src then
+                        --1) Enhancement
+                        if src.config.center and dst.config.center ~= src.config.center then
+                            dst:set_ability(src.config.center)
+                        end
+                        
+                        --2) Edition
+                        if src.edition and dst.edition ~= src.edition then
+                            dst:set_edition(src.edition)
+                        elseif dst.edition then
+                            dst:set_edition(nil)
+                        end
+                        
+                        --3) Seal
+                        if src.seal and dst.seal ~= src.seal then
+                            dst:set_seal(src.seal)
+                        elseif dst.seal then
+                            dst:set_seal(nil)
+                        end
+                    end
+                    return true
+                end
+            }))
+        end
+
+        for i = 1, #G.hand.highlighted do
+            local percent = 0.85 + (i - 0.999) / (#G.hand.highlighted - 0.998) * 0.3
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.15,
+                func = function()
+                    G.hand.highlighted[i]:flip()
+                    play_sound('tarot2', percent, 0.6)
+                    G.hand.highlighted[i]:juice_up(0.3, 0.3)
+                    return true
+                end
+            }))
+        end
+
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.2,
+            func = function()
+                G.hand:unhighlight_all()
+                return true
+            end
+        }))
+
+        delay(0.5)
+    end,
 })
+
 
 SMODS.Consumable({
     object_type = "Consumable",

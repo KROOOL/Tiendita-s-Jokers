@@ -289,7 +289,21 @@ local loc_tien = {
           "{C:inactive}(Must have room){}",
 
         }
-      }
+      },
+      c_tiendita_rev_death = {
+        name = "Reverse Death",
+        text = {
+          {
+            "Select {C:attention}#1#{} cards,",
+            "transfer {C:attention}enhancement{}, {C:attention}edition{},",
+            "and {C:attention}seal{} from the {C:attention}left{} card",
+            "to the {C:attention}right{} card",
+            "{C:inactive}(Drag to rearrange)"
+          }
+
+
+        }
+      },
 
     },
 
