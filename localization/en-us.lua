@@ -293,15 +293,24 @@ local loc_tien = {
       c_tiendita_rev_death = {
         name = "Reverse Death",
         text = {
-          {
-            "Select {C:attention}#1#{} cards,",
-            "transfer {C:attention}enhancement{}, {C:attention}edition{},",
-            "and {C:attention}seal{} from the {C:attention}left{} card",
-            "to the {C:attention}right{} card",
-            "{C:inactive}(Drag to rearrange)"
-          }
-
-
+          "Select {C:attention}#1#{} cards,",
+          "transfer {C:attention}enhancement{}, {C:attention}edition{},",
+          "and {C:attention}seal{} from the {C:attention}left{} card",
+          "to the {C:attention}right{} card",
+          "{C:inactive}(Drag to rearrange)"
+        }
+      },
+      c_tiendita_rev_judgement = {
+        name = "Reverse Judgement",
+        text = {
+          "Destroy the {C:attention}leftmost{}",
+          "{C:attention}Joker{}"
+        }
+      },
+      c_tiendita_rev_hanged = {
+        name = "Reverse Hanged Man",
+        text = {
+          "Generate {C:attention}#1#{} random cards",
         }
       },
 

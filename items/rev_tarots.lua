@@ -431,12 +431,20 @@ SMODS.Consumable({
     name = "rev_Hanged",
     key = "rev_hanged",
     pos = { x = 2, y = 1 },
-    config = {},
+    config = { amount = 2 },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { self.config.amount } }
+    end,
+    --aca va la funcion
+    can_use = function(self, card)
+        return #G.hand.cards >= 1
+    end,
 })
+
 
 --reverse death 
 --jaja la neta no se como hice esto, un saludo a la bandita que la sigue cotorreando y 
@@ -735,11 +743,62 @@ SMODS.Consumable({
     name = "rev_Judgement",
     key = "rev_judgement",
     pos = { x = 0, y = 2 },
-    config = {},
+    config = {
+        max_highlighted = 1,
+        min_highlighted = 1
+    },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    loc_vars = function(self, info_queue, card)
+        return { vars = {card.ability.max_highlighted} }
+    end,
+    use = function(self, card, area, copier)
+        local leftmost = nil
+        for _, j in ipairs(G.jokers.cards) do
+            if not leftmost or j.T.x < leftmost.T.x then
+                leftmost = j
+            end
+        end
+
+        if not leftmost then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.HUD:show_message("No Jokers found", nil, 2)
+                    return true
+                end
+            }))
+            return
+        end
+
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.3,
+            func = function()
+                play_sound('tarot1')
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.5,
+            func = function()
+                leftmost:start_dissolve({HEX("ff0000")}, nil, 1.5)
+                leftmost:remove_from_deck()
+                return true
+            end
+        }))
+
+        delay(0.6)
+    end,
+    can_use = function(self, card)
+        return G.jokers and #G.jokers.cards > 0
+    end,
 })
 
 SMODS.Consumable({
