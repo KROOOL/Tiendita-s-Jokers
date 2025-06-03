@@ -652,7 +652,7 @@ function suit_search(card, copier)
                 --Aplicar sello
                 _card:set_seal(SMODS.poll_seal({
                     guaranteed = true,
-                    type_key = 'vremade_certificate_seal' -- Cambia este key si querés usar otro sello
+                    type_key = 'vremade_certificate_seal'
                 }))
             end
 
