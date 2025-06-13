@@ -8,14 +8,14 @@ local joker = {
     unlocked = true,
     discovered = true,
     pos = {x = 7, y = 1},
-    config = {extra = {xmult = 2, xgain = 0.5, hands_played_at_create = 0}},
+    config = {extra = {xmult = 2, xgain = 0.25, hands_played_at_create = 0}},
 
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.xmult, card.ability.extra.xgain, card.ability.extra.hands_played_at_create}}
     end,
 
     calculate = function(self, card, context)
-        if context.joker_main and G.GAME.current_round.hands_played == 0 or card.ability.extra.hands_played_at_create == 0 then
+        if context.joker_main and G.GAME.current_round.hands_played == 0 or card.ability.extra.hands_played_at_create == 0 and context.main_scoring then
             card.ability.extra.hands_played_at_create = card.ability.extra.hands_played_at_create + 1
             card.ability.extra_value = 0
             card:set_cost()

@@ -190,19 +190,51 @@ local loc_tien = {
           "the number of Snow Cards played",
           "before this one in the hand",
           "{C:inactive}(Example: +2, +4, +8, +16, etc.){}"
-        }
-      }
+        },
+      },
+      m_tiendita_wood = {
+        name = "Wood Card",
+        text = {
+          "{C:chips}+#1#{} extra chips",
+          "This card gains {C:chips}+#2#{} extra chips",
+          "and increases it's rank",
+          "by {C:attention}1{} when played"
+        },
+      },
+      m_tiendita_geode = {
+        name = "Geode Card",
+        text = {
+          "This card gives {C:money}$#1#-#2#",
+          "each time is scored and then",
+          "it destroys itself",
+          "no rank or suit",
+        },
+      },
+      m_tiendita_chaos = {
+        name = "Chaos Card",
+        text = {
+          "{C:mult}CHAOS!!",
+        },
+      },
     },
 
     --Reverse rev_tarots
     tiendita_ReverseTarot = {
+      c_tiendita_rev_lovers = {
+        name = "Reverse The Lovers",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
+        },
+      },
       c_tiendita_rev_chariot = {
         name = "Reverse The Chariot",
         text = {
           "Enhances {C:attention}#1#{} selected",
           "card into a",
           "{C:attention}#2#"
-        }
+        },
       },
       c_tiendita_rev_strength = {
         name = "Reverse The Strength",
@@ -214,6 +246,22 @@ local loc_tien = {
       },
       c_tiendita_rev_empress = {
         name = "Reverse The Empress",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
+        }
+      },
+      c_tiendita_rev_magician = {
+        name = "Reverse The Magician",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
+        }
+      },
+      c_tiendita_rev_tower = {
+        name = "Reverse The Tower",
         text = {
           "Enhances {C:attention}#1#{} selected",
           "card into a",
@@ -294,7 +342,7 @@ local loc_tien = {
         name = "Reverse Death",
         text = {
           "Select {C:attention}#1#{} cards,",
-          "transfer {C:attention}enhancement{}, {C:attention}edition{},",
+          "give {C:attention}enhancement{}, {C:attention}edition{},",
           "and {C:attention}seal{} from the {C:attention}left{} card",
           "to the {C:attention}right{} card",
           "{C:inactive}(Drag to rearrange)"
@@ -304,8 +352,7 @@ local loc_tien = {
         name = "Reverse Judgement",
         text = {
           "Destroy the {C:attention}leftmost{}",
-          "{C:attention}Joker{}, also destroy eternal",
-          "{C:inactive}(Drag to rearrange)"
+          "{C:attention}Joker{}"
         }
       },
       c_tiendita_rev_hanged = {

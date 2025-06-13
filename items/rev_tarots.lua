@@ -93,6 +93,13 @@ SMODS.Consumable({
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    config = { max_highlighted = 2, mod_conv = 'm_tiendita_chaos' },
+    unlocked = true,
+    discovered = true,
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv } } }
+    end,
 })
 
 --view the least used planet
@@ -123,8 +130,6 @@ local function get_least_played_planet()
 
     return nil
 end
-
-
 
 --rev priestess
 SMODS.Consumable({
@@ -249,23 +254,9 @@ SMODS.Consumable({
     name = "rev_Lovers",
     key = "rev_lovers",
     pos = { x = 6, y = 0 },
-    config = {},
-    cost = 3,
-    atlas = "rev_tarots",
-    unlocked = true,
-    discovered = true,
-})
-
-  -- rev chariot
-  SMODS.Consumable({
-    object_type = "Consumable",
-    set = "tiendita_ReverseTarot",
-    name = "rev_Chariot",
-    key = "rev_chariot",
-    pos = { x = 7, y = 0 },
     config = {
-      max_highlighted = 1,
-      mod_conv = "m_tiendita_slime"
+        max_highlighted = 1,
+        mod_conv = "m_tiendita_slime"
     },
     cost = 3,
     atlas = "rev_tarots",
@@ -281,6 +272,34 @@ SMODS.Consumable({
         card and card.ability.max_highlighted or self.config.max_highlighted,
         localize{type = 'name_text', set = 'Enhanced', key = self.config.mod_conv}
       } }
+    end
+})
+
+  -- rev chariot
+  SMODS.Consumable({
+    object_type = "Consumable",
+    set = "tiendita_ReverseTarot",
+    name = "rev_Chariot",
+    key = "rev_chariot",
+    pos = { x = 7, y = 0 },
+    config = {
+      max_highlighted = 2,
+      mod_conv = "m_tiendita_wood"
+    },
+    cost = 3,
+    atlas = "rev_tarots",
+    unlocked = true,
+    discovered = true,
+    can_use = function (self, card)
+        return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_wood
+
+        return { vars = {
+            card and card.ability.max_highlighted or self.config.max_highlighted,
+            localize{type = "name_text", set = 'Enhanced', key = self.config.mod_conv}
+        }}
     end
   })
 
@@ -321,7 +340,7 @@ SMODS.Consumable({
             play_sound('timpani')
             card:juice_up(0.3, 0.5)
 
-            local current = to_number(G.GAME.dollars)
+            local current = G.GAME.dollars
             local target = card.ability.extra.set or 30
             local give = target - current
             ease_dollars(give)
@@ -521,6 +540,7 @@ SMODS.Consumable({
     end,
 })
 
+
 --reverse death 
 --jaja la neta no se como hice esto, un saludo a la bandita que la sigue cotorreando y 
 --a gpt por ayudarme a mis fallos de logica, cada dia mas aca y aca
@@ -597,8 +617,6 @@ SMODS.Consumable({
                         --3) Seal
                         if src.seal and dst.seal ~= src.seal then
                             dst:set_seal(src.seal)
-                        elseif dst.seal then
-                            dst:set_seal(nil)
                         end
                     end
                     return true
@@ -695,11 +713,24 @@ SMODS.Consumable({
     name = "rev_Tower",
     key = "rev_tower",
     pos = { x = 6, y = 1 },
-    config = {},
+    config = {
+        max_highlighted = 1,
+        mod_conv = "m_tiendita_geode"},
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    can_use = function(self, card)
+      return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_geode
+  
+      return { vars = { 
+        card and card.ability.max_highlighted or self.config.max_highlighted,
+        localize{type = 'name_text', set = 'Enhanced', key = self.config.mod_conv}
+      } }
+    end
 })
 
 --ty to notmario
@@ -827,7 +858,6 @@ SMODS.Consumable({
     unlocked = true,
     discovered = true,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue + 1] = G.P_CENTERS.s_eternal
         return { vars = {card.ability.max_highlighted} }
     end,
     use = function(self, card, area, copier)

@@ -68,3 +68,128 @@ SMODS.Enhancement {
         end
     end
 }
+
+--Wood
+SMODS.Enhancement {
+    key = 'wood',
+    atlas = 'enhancers',
+    pos = {x = 2, y = 0},
+    config = {extra = {wchips = 0, chips_gain = 5}},
+    loc_vars = function (self, info_queue, card)
+        return { vars = {card.ability.extra.wchips, card.ability.extra.chips_gain}}
+    end,
+
+    calculate = function (self, card, context)
+        if context.before and context.cardarea == G.play then
+            card.ability.extra.wchips =  card.ability.extra.wchips + card.ability.extra.chips_gain
+
+            if card.facing == "front" then
+                G.E_MANAGER:add_event(Event({trigger = 'after',card:flip()}))
+            end
+            local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+            local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
+            if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+            elseif rank_suffix == 10 then rank_suffix = 'T'
+            elseif rank_suffix == 11 then rank_suffix = 'J'
+            elseif rank_suffix == 12 then rank_suffix = 'Q'
+            elseif rank_suffix == 13 then rank_suffix = 'K'
+            elseif rank_suffix == 14 then rank_suffix = 'A'
+            end
+            card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+            if card.facing == "back" then
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,card:flip()}))
+            end
+        end
+        if context.main_scoring and context.cardarea == G.play then
+            return {
+                chips = card.ability.extra.wchips
+            }
+        end
+    end
+}
+
+--Geode
+SMODS.Enhancement {
+    key = "geode",
+    atlas = 'enhancers',
+    pos = { x = 4, y = 0 },
+    config = {gdollars = 3, ggdollars = 7, value = nil},
+    loc_vars = function(self, info_queue, card)
+        return { vars = {card.ability.gdollars, card.ability.ggdollars} }
+    end,
+    replace_base_card = true,
+    no_rank = true,
+    no_suit = true,
+    always_scores = true,
+
+    calculate = function(self, card, context, info_queue)
+        if context.main_scoring and context.cardarea == G.play then
+            math.randomseed(pseudorandom('geode'))
+            card.ability.value = math.random(card.ability.gdollars, card.ability.ggdollars)
+            return { 
+                dollars = card.ability.value
+            }
+        end
+
+        if context.after and context.cardarea == G.play then
+            local to_remove = {}
+            for _, c in ipairs(context.scoring_hand) do
+                if c.ability.gdollars == 1 then
+                    c.destroyed = true
+                    table.insert(to_remove, c)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            c:start_dissolve()
+                            c:remove_from_deck()
+                            return true
+                        end
+                    }))
+                end
+            end
+            if #to_remove > 0 then
+                SMODS.calculate_context({
+                    remove_playing_cards = true,
+                    removed               = to_remove
+                })
+            end
+        end    
+    end
+}
+
+--Chaos
+SMODS.Enhancement {
+    key = "chaos",
+    atlas = 'enhancers',
+    pos = { x = 3, y = 0 },
+    config = {chipi = 10, chipii = 50, varoi = 1, varoii = 3, multi = 1, multii = 15, xmulti = 1.1, xmultii = 2, efecto = 0},
+    loc_vars = function(self, info_queue, card)
+        return { vars = {card.ability.chipi, card.ability.chipii, card.ability.varoi, card.ability.varoii, card.ability.multi, card.ability.multii, card.ability.xmulti, card.ability.xmultii} }
+    end,
+
+    calculate = function(self, card, context, info_queue)
+        if context.main_scoring and context.cardarea == G.play then
+            math.randomseed(pseudorandom('chaos'))
+            if pseudorandom('chaos') < 1 / 4 then
+                card.ability.efecto = card.ability.xmulti + math.random() * (card.ability.xmultii - card.ability.xmulti)
+                return { 
+                    Xmult = card.ability.efecto
+                }
+            elseif pseudorandom('chaos') < 2 / 4 then
+                card.ability.efecto = math.random(card.ability.varoi, card.ability.varoii)
+                return { 
+                    dollars = card.ability.efecto
+                }
+            elseif pseudorandom('chaos') < 3 / 4 then
+                card.ability.efecto = math.random(card.ability.multi, card.ability.multii)
+                return { 
+                    mult = card.ability.efecto
+                }
+            else
+                card.ability.efecto = math.random(card.ability.chipi, card.ability.chipii)
+                return { 
+                    chips = card.ability.efecto
+                }
+            end
+        end  
+    end
+}
