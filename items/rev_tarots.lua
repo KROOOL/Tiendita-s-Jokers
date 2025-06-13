@@ -425,26 +425,101 @@ SMODS.Consumable {
     end,
 }
 
+function do_random_enhanced_draw(card, copier, count, seal_chance, edition_chance)
+    count          = tonumber(count) or 0
+    seal_chance    = tonumber(seal_chance) or 1
+    edition_chance = tonumber(edition_chance) or 1
+
+    local used_tarot = copier or card
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay   = 0.7,
+        func    = function()
+            play_sound('tarot1')
+            used_tarot:juice_up(0.3, 0.5)
+
+            local cen_pool = {}
+            for _, v in pairs(G.P_CENTER_POOLS["Enhanced"]) do
+                if v.key ~= 'm_stone' and not v.overrides_base_rank then
+                    cen_pool[#cen_pool + 1] = v
+                end
+            end
+
+            local created = {}
+            for i = 1, count do
+                created[i] = true
+
+                -- Rank al azar
+                local rank = pseudorandom_element(
+                    {'A','2','3','4','5','6','7','8','9','T','J','Q','K'},
+                    pseudoseed('rank_'..i)
+                )
+                -- Palo al azar
+                local suits = {'C','D','H','S'}
+                local suit  = pseudorandom_element(suits, pseudoseed('suit_'..i))
+
+                --Enhancement
+                local enh = pseudorandom_element(
+                    cen_pool,
+                    pseudoseed('encanto_'..i)
+                )
+
+                --Crea nueva carta
+                local new_card = create_playing_card({
+                    front  = G.P_CARDS[suit..'_'..rank],
+                    center = enh or G.P_CENTERS.c_base
+                }, G.hand, true, i ~= 1, { G.C.SECONDARY_SET.Rotarot })
+
+                --Sello
+                if pseudorandom(pseudoseed('seal_'..i)) < seal_chance then
+                    local seal = SMODS.poll_seal()
+                    if seal then new_card:set_seal(seal) end
+                end
+
+                --Edition
+                if pseudorandom(pseudoseed('edition_'..i)) < edition_chance then
+                    local ed = poll_edition(wheel_of_fortune, nil, true, true)
+                    if ed then new_card:set_edition(ed, nil, true) end
+                end
+            end
+
+            playing_card_joker_effects(created)
+            return true
+        end
+    }))
+end
+
 SMODS.Consumable({
     object_type = "Consumable",
-    set = 'tiendita_ReverseTarot',
-    name = "rev_Hanged",
-    key = "rev_hanged",
-    pos = { x = 2, y = 1 },
-    config = { amount = 2 },
-    cost = 3,
-    atlas = "rev_tarots",
-    unlocked = true,
-    discovered = true,
-    loc_vars = function(self, info_queue, card)
-        return { vars = { self.config.amount } }
+    set       = 'tiendita_ReverseTarot',
+    name      = "rev_Hanged",
+    key       = "rev_hanged",
+    pos       = { x = 2, y = 1 },
+    config    = {
+        amount         = 2,
+        seal_chance    = 0.6,
+        edition_chance = 0.3
+    },
+    cost      = 3,
+    atlas     = "rev_tarots",
+    unlocked  = true,
+    discovered= true,
+    loc_vars  = function(self, info_queue, card)
+        return { vars = { tonumber(self.config.amount) or 0 } }
     end,
-    --aca va la funcion
+    use = function(self, card, area, copier)
+        do_random_enhanced_draw(
+            card,
+            copier,
+            self.config.amount,
+            self.config.seal_chance,
+            self.config.edition_chance
+        )
+    end,
     can_use = function(self, card)
         return #G.hand.cards >= 1
     end,
 })
-
 
 --reverse death 
 --jaja la neta no se como hice esto, un saludo a la bandita que la sigue cotorreando y 
@@ -752,6 +827,7 @@ SMODS.Consumable({
     unlocked = true,
     discovered = true,
     loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.s_eternal
         return { vars = {card.ability.max_highlighted} }
     end,
     use = function(self, card, area, copier)

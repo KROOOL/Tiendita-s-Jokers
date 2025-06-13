@@ -4,6 +4,7 @@ local joker = {
     rarity = 3,
     cost = 10,
     blueprint_compat = false,
+    perishable_compat = false,
     eternal_compat = false,  
     unlocked = true, --Desbloqueado por default
     discovered = true, --Descubierto por default

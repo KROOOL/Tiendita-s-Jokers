@@ -304,7 +304,8 @@ local loc_tien = {
         name = "Reverse Judgement",
         text = {
           "Destroy the {C:attention}leftmost{}",
-          "{C:attention}Joker{}"
+          "{C:attention}Joker{}, also destroy eternal",
+          "{C:inactive}(Drag to rearrange)"
         }
       },
       c_tiendita_rev_hanged = {
