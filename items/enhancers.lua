@@ -145,7 +145,7 @@ SMODS.Enhancement {
         if context.after and context.cardarea == G.play then
             local to_remove = {}
             for _, c in ipairs(context.scoring_hand) do
-                if c.ability.gdollars == 1 then
+                if c.ability.gdollars == 3 then
                     c.destroyed = true
                     table.insert(to_remove, c)
                     G.E_MANAGER:add_event(Event({
@@ -203,6 +203,17 @@ SMODS.Enhancement {
             end
         end  
     end
+}
+
+--Royal Card 
+SMODS.Enhancement{
+    key = "royal",
+    atlas = "enhancers",
+    pos = {x = 1, y = 1},
+    config = {equizde = 11},
+    loc_vars = function (self, info_queue, card)
+        return {vars = {"King"}}
+    end,
 }
 
 --Tin

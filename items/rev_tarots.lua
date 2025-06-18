@@ -324,11 +324,24 @@ SMODS.Consumable({
     name = "rev_Justice",
     key = "rev_justice",
     pos = { x = 8, y = 0 },
-    config = { },
+    config = {
+        max_highlighted = 2,
+        mod_conv = "m_tiendita_royal" },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    can_use = function(self, card)
+      return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_royal
+  
+      return { vars = { 
+        card and card.ability.max_highlighted or self.config.max_highlighted,
+        localize{type = 'name_text', set = 'Enhanced', key = self.config.mod_conv}
+      } }
+    end
 })
 
 SMODS.Consumable({

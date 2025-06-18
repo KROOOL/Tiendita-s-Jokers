@@ -255,6 +255,14 @@ local loc_tien = {
           "each time is scored but",
           "it will {C:attention}oxidate{} and destroy itself"
         }
+      },
+      m_tiendita_royal = {
+        name = "Royal Card",
+        text = {
+          "This card applies the effects",
+          "of a {C:attention}#1#{} card",
+          "{s:0.8}Doesn't apply {s:0.8,C:attention}Face{s:0.8} card effects"
+        }
       }
     },
 
@@ -425,6 +433,14 @@ local loc_tien = {
           "{C:dark_edition}Foil{} to {C:dark_edition}Holographic{}",
           "{C:dark_edition}Holographic{} to {C:dark_edition}Polychrome{}",
           "{C:dark_edition}Polychrome{} to {C:dark_edition}Negative{}",
+        }
+      },
+      c_tiendita_rev_justice = {
+        name = "Reverse The Justice",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
         }
       },
     },
