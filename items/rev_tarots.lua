@@ -241,11 +241,25 @@ SMODS.Consumable({
     name = "rev_Hierophant",
     key = "rev_hierophant",
     pos = { x = 5, y = 0 },
-    config = {},
+    config = {
+      max_highlighted = 2,
+      mod_conv = "m_tiendita_wood"
+    },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    can_use = function (self, card)
+        return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    loc_vars = function (self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_wood
+
+        return { vars = {
+            card and card.ability.max_highlighted or self.config.max_highlighted,
+            localize{type = "name_text", set = 'Enhanced', key = self.config.mod_conv}
+        }}
+    end
 })
 
 SMODS.Consumable({
@@ -256,7 +270,7 @@ SMODS.Consumable({
     pos = { x = 6, y = 0 },
     config = {
         max_highlighted = 1,
-        mod_conv = "m_tiendita_slime"
+        mod_conv = "m_tiendita_tin"
     },
     cost = 3,
     atlas = "rev_tarots",
@@ -266,7 +280,7 @@ SMODS.Consumable({
       return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
     end,
     loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_slime
+      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_tin
   
       return { vars = { 
         card and card.ability.max_highlighted or self.config.max_highlighted,
@@ -292,8 +306,7 @@ SMODS.Consumable({
     discovered = true,
     can_use = function (self, card)
         return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
-    end,
-    loc_vars = function (self, info_queue, card)
+    end,    loc_vars = function (self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_lead
 
         return { vars = {
@@ -311,25 +324,11 @@ SMODS.Consumable({
     name = "rev_Justice",
     key = "rev_justice",
     pos = { x = 8, y = 0 },
-    config = {
-        max_highlighted = 1,
-        mod_conv = "m_tiendita_tin"
-    },
+    config = { },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
-    can_use = function(self, card)
-      return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
-    end,
-    loc_vars = function(self, info_queue, card)
-      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_tin
-  
-      return { vars = { 
-        card and card.ability.max_highlighted or self.config.max_highlighted,
-        localize{type = 'name_text', set = 'Enhanced', key = self.config.mod_conv}
-      } }
-    end
 })
 
 SMODS.Consumable({
@@ -791,33 +790,6 @@ SMODS.Consumable({
     key = "rev_devil",
     pos = { x = 5, y = 1 },
     config = {
-      max_highlighted = 2,
-      mod_conv = "m_tiendita_wood"
-    },
-    cost = 3,
-    atlas = "rev_tarots",
-    unlocked = true,
-    discovered = true,
-    can_use = function (self, card)
-        return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
-    end,
-    loc_vars = function (self, info_queue, card)
-        info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_wood
-
-        return { vars = {
-            card and card.ability.max_highlighted or self.config.max_highlighted,
-            localize{type = "name_text", set = 'Enhanced', key = self.config.mod_conv}
-        }}
-    end
-})
-
-SMODS.Consumable({
-    object_type = "Consumable",
-    set = 'tiendita_ReverseTarot',
-    name = "rev_Tower",
-    key = "rev_tower",
-    pos = { x = 6, y = 1 },
-    config = {
         max_highlighted = 1,
         mod_conv = "m_tiendita_geode"},
     cost = 3,
@@ -829,6 +801,32 @@ SMODS.Consumable({
     end,
     loc_vars = function(self, info_queue, card)
       info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_geode
+  
+      return { vars = { 
+        card and card.ability.max_highlighted or self.config.max_highlighted,
+        localize{type = 'name_text', set = 'Enhanced', key = self.config.mod_conv}
+      } }
+    end
+})
+
+SMODS.Consumable({
+    object_type = "Consumable",
+    set = 'tiendita_ReverseTarot',
+    name = "rev_Tower",
+    key = "rev_tower",
+    pos = { x = 6, y = 1 },
+    config = {
+        max_highlighted = 1,
+        mod_conv = "m_tiendita_slime"},
+    cost = 3,
+    atlas = "rev_tarots",
+    unlocked = true,
+    discovered = true,
+    can_use = function(self, card)
+      return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_slime
   
       return { vars = { 
         card and card.ability.max_highlighted or self.config.max_highlighted,

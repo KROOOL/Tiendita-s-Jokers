@@ -300,8 +300,8 @@ local loc_tien = {
           "{C:attention}#2#s"
         }
       },
-      c_tiendita_rev_justice = {
-        name = "Reverse The Justice",
+      c_tiendita_rev_devil = {
+        name = "Reverse The Devil",
         text = {
           "Enhances {C:attention}#1#{} selected",
           "card into a",
@@ -409,8 +409,8 @@ local loc_tien = {
           "Generate {C:attention}#1#{} random cards",
         }
       },
-      c_tiendita_rev_devil = {
-        name = "Reverse The Devil",
+      c_tiendita_rev_hierophant = {
+        name = "Reverse Hierophant",
         text = {
           "Enhances {C:attention}#1#{} selected",
           "card into",
