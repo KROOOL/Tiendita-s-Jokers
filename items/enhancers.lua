@@ -204,3 +204,88 @@ SMODS.Enhancement {
         end  
     end
 }
+
+--Tin
+SMODS.Enhancement{
+    key = "tin",
+    atlas = "enhancers",
+    pos = {x = 4, y = 0},
+    config = {tmult = 3},
+    loc_vars = function (self, info_queue, card)
+        return { vars = {card.ability.tmult}}
+    end,
+
+    calculate = function (self, card, context, info_queue)
+        if context.main_scoring and context.cardarea == G.play then
+            return{
+                Xmult = card.ability.tmult
+            }
+        end
+        if context.after and context.cardarea == G.play then
+            G.E_MANAGER:add_event(Event({trigger = 'after', card:set_ability(G.P_CENTERS.m_tiendita_tin3, nil, true)}))
+        end
+    end
+}
+
+--Tin2
+SMODS.Enhancement{
+    key = "tin2",
+    atlas = "enhancers",
+    pos = {x = 3, y = 0},
+    config = {tmult = 2},
+    loc_vars = function (self, info_queue, card)
+        return { vars = {card.ability.tmult}}
+    end,
+
+    calculate = function (self, card, context, info_queue)
+        if context.main_scoring and context.cardarea == G.play then
+            return{
+                Xmult = card.ability.tmult
+            }
+        end
+        if context.after and context.cardarea == G.play then
+            G.E_MANAGER:add_event(Event({trigger = 'after', card:set_ability(G.P_CENTERS.m_tiendita_tin3, nil, true)}))
+        end
+    end
+}
+
+--Tin3
+SMODS.Enhancement{
+    key = "tin3",
+    atlas = "enhancers",
+    pos = {x = 2, y = 0},
+    config = {tmult = 1.5},
+    loc_vars = function (self, info_queue, card)
+        return { vars = {card.ability.tmult}}
+    end,
+
+    calculate = function (self, card, context, info_queue)
+        if context.main_scoring and context.cardarea == G.play then
+            return{
+                Xmult = card.ability.tmult
+            }
+        end
+        if context.after and context.cardarea == G.play then
+            local to_remove = {}
+            for _, c in ipairs(context.scoring_hand) do
+                if c.ability.tmult == 1.5 then
+                    c.destroyed = true
+                    table.insert(to_remove, c)
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            c:start_dissolve()
+                            c:remove_from_deck()
+                            return true
+                        end
+                    }))
+                end
+            end
+            if #to_remove > 0 then
+                SMODS.calculate_context({
+                    remove_playing_cards = true,
+                    removed               = to_remove
+                })
+            end
+        end
+    end
+}

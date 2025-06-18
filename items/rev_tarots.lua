@@ -304,17 +304,32 @@ SMODS.Consumable({
   })
 
 
+--rev justice
 SMODS.Consumable({
     object_type = "Consumable",
     set = 'tiendita_ReverseTarot',
     name = "rev_Justice",
     key = "rev_justice",
     pos = { x = 8, y = 0 },
-    config = {},
+    config = {
+        max_highlighted = 1,
+        mod_conv = "m_tiendita_tin"
+    },
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    can_use = function(self, card)
+      return #G.hand.highlighted >= 1 and #G.hand.highlighted <= card.ability.max_highlighted
+    end,
+    loc_vars = function(self, info_queue, card)
+      info_queue[#info_queue + 1] = G.P_CENTERS.m_tiendita_tin
+  
+      return { vars = { 
+        card and card.ability.max_highlighted or self.config.max_highlighted,
+        localize{type = 'name_text', set = 'Enhanced', key = self.config.mod_conv}
+      } }
+    end
 })
 
 SMODS.Consumable({
@@ -356,17 +371,92 @@ SMODS.Consumable({
     end
 })
 
+--rev wheel_of_fortune
 SMODS.Consumable({
     object_type = "Consumable",
     set = 'tiendita_ReverseTarot',
     name = "rev_Fortune",
     key = "rev_fortune",
     pos = { x = 0, y = 1 },
-    config = {},
+    config = { extra = {odds = 4}},
+    loc_vars = function(self, info_queue, card)
+        return { vars = { G.GAME.probabilities.normal, card.ability.extra.odds } }
+    end,
     cost = 3,
     atlas = "rev_tarots",
     unlocked = true,
     discovered = true,
+    use = function(self, card, area, copier)
+    if pseudorandom('rev_wheel') < G.GAME.probabilities.normal / card.ability.extra.odds then
+        -- Get eligible jokers that are NOT negative
+        local upgradable_jokers = {}
+        for _, j in ipairs(SMODS.Edition:get_edition_cards(G.jokers, false)) do
+            if not j.edition.negative then
+                table.insert(upgradable_jokers, j)
+            end
+        end
+
+        -- If there's no eligible joker (safety check), do nothing
+        if #upgradable_jokers == 0 then return end
+
+        -- Pick one at random
+        local eligible_card = pseudorandom_element(upgradable_jokers, pseudoseed('rev_wheel'))
+
+        -- Determine new edition
+        local edicion
+        if eligible_card.edition.foil then
+            edicion = {holo = true}
+        elseif eligible_card.edition.holo then
+            edicion = {polychrome = true}
+        elseif eligible_card.edition.polychrome then
+            edicion = {negative = true}
+        end
+
+        -- Apply new edition
+        eligible_card:set_edition(edicion, true)
+    else
+        -- Failure feedback
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.4,
+            func = function()
+                attention_text({
+                    text = localize('k_nope_ex'),
+                    scale = 1.3,
+                    hold = 1.4,
+                    major = card,
+                    backdrop_colour = G.C.SECONDARY_SET.Tarot,
+                    align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and
+                        'tm' or 'cm',
+                    offset = { x = 0, y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) and -0.2 or 0 },
+                    silent = true
+                })
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'after',
+                    delay = 0.06 * G.SETTINGS.GAMESPEED,
+                    blockable = false,
+                    blocking = false,
+                    func = function()
+                        play_sound('tarot2', 0.76, 0.4)
+                        return true
+                    end
+                }))
+                play_sound('tarot2', 1, 0.4)
+                card:juice_up(0.3, 0.5)
+                return true
+            end
+        }))
+    end
+end,
+    can_use = function(self, card)
+    for _, joker in ipairs(SMODS.Edition:get_edition_cards(G.jokers, false)) do
+        if not joker.edition.negative then
+            return true -- At least one joker is upgradable
+        end
+    end
+    return false -- All jokers are already negative
+end
+
 })
 
 -- rev strength

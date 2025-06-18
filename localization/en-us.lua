@@ -232,6 +232,30 @@ local loc_tien = {
           "stays in hand"
         },
       },
+      m_tiendita_tin = {
+        name = "Tin Card",
+        text = {
+          "This card gives {X:mult,C:white}X#1#{} Mult",
+          "each time is scored but",
+          "it will {C:attention}oxidate{} and decrease it's mult"
+        }
+      },
+      m_tiendita_tin2 = {
+        name = "Tin Card",
+        text = {
+          "This card gives {X:mult,C:white}X#1#{} Mult",
+          "each time is scored but",
+          "it will {C:attention}oxidate{} and decrease it's mult"
+        }
+      },
+      m_tiendita_tin3 = {
+        name = "Tin Card",
+        text = {
+          "This card gives {X:mult,C:white}X#1#{} Mult",
+          "each time is scored but",
+          "it will {C:attention}oxidate{} and destroy itself"
+        }
+      }
     },
 
     --Reverse rev_tarots
@@ -274,6 +298,14 @@ local loc_tien = {
           "Enhances {C:attention}#1#{} selected",
           "card into a",
           "{C:attention}#2#s"
+        }
+      },
+      c_tiendita_rev_justice = {
+        name = "Reverse The Justice",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into a",
+          "{C:attention}#2#"
         }
       },
       c_tiendita_rev_tower = {
@@ -383,6 +415,16 @@ local loc_tien = {
           "Enhances {C:attention}#1#{} selected",
           "card into",
           "{C:attention}#2#s"
+        }
+      },
+      c_tiendita_rev_fortune = {
+        name = "Reverse Wheel Of Fortune",
+        text = {
+          "{C:green}#1# in #2#{} chance to upgrade",
+          "a random {C:attention}Joker{} Edition from",
+          "{C:dark_edition}Foil{} to {C:dark_edition}Holographic{}",
+          "{C:dark_edition}Holographic{} to {C:dark_edition}Polychrome{}",
+          "{C:dark_edition}Polychrome{} to {C:dark_edition}Negative{}",
         }
       },
     },
