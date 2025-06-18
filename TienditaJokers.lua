@@ -27,6 +27,7 @@ local joker_list = {
     "otherhalf",
     "bust",
     "headshot",
+    "wobble",
 
     --Raros
     "snake",

@@ -171,6 +171,14 @@ local loc_tien = {
             "{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult)",
         },
       },
+      j_tiendita_wobble = {
+        name = "Wooble Joker",
+        text = {
+            "This Joker gain a {C:gold}random{} effect",
+            "when {C:attention}Blind{} is selected",
+            "{C:inactive}(Currently {C:mult}+#1#{}{C:inactive}, {}{X:mult,C:white}X#2#{}{C:inactive} Mult & {C:chips}+#3#{}{C:inactive}, {}{X:blue,C:white}X#4#{}{C:inactive} Chips)",
+        },
+      },
     },
 
     --Enhanced
@@ -216,6 +224,14 @@ local loc_tien = {
           "{C:mult}CHAOS!!",
         },
       },
+      m_tiendita_lead = {
+        name = "Lead Card",
+        text = {
+          "{C:chips}+60{} Chips",
+          "while this card",
+          "stays in hand"
+        },
+      },
     },
 
     --Reverse rev_tarots
@@ -232,8 +248,8 @@ local loc_tien = {
         name = "Reverse The Chariot",
         text = {
           "Enhances {C:attention}#1#{} selected",
-          "card into a",
-          "{C:attention}#2#"
+          "card into",
+          "{C:attention}#2#s"
         },
       },
       c_tiendita_rev_strength = {
@@ -248,8 +264,8 @@ local loc_tien = {
         name = "Reverse The Empress",
         text = {
           "Enhances {C:attention}#1#{} selected",
-          "card into a",
-          "{C:attention}#2#"
+          "card into",
+          "{C:attention}#2#s"
         }
       },
       c_tiendita_rev_magician = {
@@ -257,7 +273,7 @@ local loc_tien = {
         text = {
           "Enhances {C:attention}#1#{} selected",
           "card into a",
-          "{C:attention}#2#"
+          "{C:attention}#2#s"
         }
       },
       c_tiendita_rev_tower = {
@@ -361,7 +377,14 @@ local loc_tien = {
           "Generate {C:attention}#1#{} random cards",
         }
       },
-
+      c_tiendita_rev_devil = {
+        name = "Reverse The Devil",
+        text = {
+          "Enhances {C:attention}#1#{} selected",
+          "card into",
+          "{C:attention}#2#s"
+        }
+      },
     },
 
     --Blinds

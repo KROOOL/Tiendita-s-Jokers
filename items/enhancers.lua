@@ -69,6 +69,17 @@ SMODS.Enhancement {
     end
 }
 
+--Platinum ya no
+SMODS.Enhancement {
+    key = 'lead',
+    atlas = 'enhancers',
+    pos = { x = 0, y = 1 },
+    config = { h_chips = 60 },
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.h_chips } }
+    end,
+}
+
 --Wood
 SMODS.Enhancement {
     key = 'wood',
