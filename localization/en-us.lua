@@ -179,6 +179,13 @@ local loc_tien = {
             "{C:inactive}(Currently {C:mult}+#1#{}{C:inactive}, {}{X:mult,C:white}X#2#{}{C:inactive} Mult & {C:chips}+#3#{}{C:inactive}, {}{X:blue,C:white}X#4#{}{C:inactive} Chips)",
         },
       },
+      j_tiendita_colonials = {
+        name = "Colonial Joker",
+        text = {
+        "Gives {X:mult,C:white}X#1#{} for every other Colonial Joker you have",
+        "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult)",
+        },
+      },
     },
 
     --Enhanced

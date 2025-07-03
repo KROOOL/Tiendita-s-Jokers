@@ -209,7 +209,7 @@ SMODS.Enhancement {
 SMODS.Enhancement{
     key = "royal",
     atlas = "enhancers",
-    pos = {x = 1, y = 1},
+    pos = {x = 4, y = 1},
     config = {equizde = 11},
     loc_vars = function (self, info_queue, card)
         return {vars = {"King"}}
@@ -220,7 +220,7 @@ SMODS.Enhancement{
 SMODS.Enhancement{
     key = "tin",
     atlas = "enhancers",
-    pos = {x = 4, y = 0},
+    pos = {x = 1, y = 1},
     config = {tmult = 3},
     loc_vars = function (self, info_queue, card)
         return { vars = {card.ability.tmult}}
@@ -242,7 +242,7 @@ SMODS.Enhancement{
 SMODS.Enhancement{
     key = "tin2",
     atlas = "enhancers",
-    pos = {x = 3, y = 0},
+    pos = {x = 2, y = 1},
     config = {tmult = 2},
     loc_vars = function (self, info_queue, card)
         return { vars = {card.ability.tmult}}
@@ -264,7 +264,7 @@ SMODS.Enhancement{
 SMODS.Enhancement{
     key = "tin3",
     atlas = "enhancers",
-    pos = {x = 2, y = 0},
+    pos = {x = 3, y = 1},
     config = {tmult = 1.5},
     loc_vars = function (self, info_queue, card)
         return { vars = {card.ability.tmult}}

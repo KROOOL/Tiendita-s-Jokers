@@ -13,7 +13,8 @@ local joker =  {
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not context.blueprint then
-            --tenia otro plan asi q tengo q programar feo o cambiar todo y decido programar feo
+            --tenia otro plan asi q tengo q dos opciones: programar feo o cambiar todo 
+            -- y decido programar feo
             local rand = pseudorandom('wobble')
             if rand < 0.3 then
                 card.ability.extra.chips = card.ability.extra.chips + math.random(card.ability.extra.chip_modi, card.ability.extra.chip_modii)
